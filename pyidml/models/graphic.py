@@ -1,8 +1,6 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
 
-# TODO: Check properties exist
-
 class Graphic(Element):
     """
     In an IDML package, the Graphic.xml file stores elements that define graphic 
@@ -25,6 +23,8 @@ class Swatch(Element):
     ColorRemovable = BooleanField()
     Visible = BooleanField()
     SwatchCreatorID = IntField()
+    
+    Properties = EmbeddedDocumentField(Properties)
     
 
 class Color(Swatch):
@@ -152,6 +152,8 @@ class Ink(Element):
     NeutralDensity = FloatField()
     PrintInk = BooleanField()
     TrapOrder = IntField()
+    
+    Properties = EmbeddedDocumentField(Properties)
     
 
 class StrokeStyle(Element):
