@@ -1,6 +1,8 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
 
+# TODO: Check properties exist
+
 class Fonts(Element):
     """
     Defines the fonts and composite fonts used in a document.

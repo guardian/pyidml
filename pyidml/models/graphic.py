@@ -1,6 +1,8 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
 
+# TODO: Check properties exist
+
 class Graphic(Element):
     """
     In an IDML package, the Graphic.xml file stores elements that define graphic 
