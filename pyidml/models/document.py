@@ -3,6 +3,15 @@ from pyidml.fields import *
 from pyidml.models import Element, XMLSerializableMixin, ElementMixin, Properties, ElementEmbeddedDocumentField
 
 class Language(Element):
+    """
+    The <Language> elements in an IDML package define the language dictionaries 
+    available for the document.
+    
+    You cannot create languages by adding new <Language> elements; they are 
+    included for use as references (from, for example, <ParagraphStyle> elements 
+    in the Styles.xml file in the Resources folder of the IDML package), and to 
+    maintain round-trip fidelity for InDesign and InCopy documents.
+    """
     Self = StringField(required=True)
     Name = StringField(required=True)
     SingleQuotes = StringField()
@@ -15,6 +24,9 @@ class Language(Element):
     
 
 class Document(mongoengine.Document, XMLSerializableMixin, ElementMixin):
+    """
+    An InDesign document.
+    """
     DOMVersion = StringField(required=True)
     Self = StringField(required=True)
     
