@@ -52,7 +52,7 @@ class ElementMixin(object):
 
 class Element(mongoengine.EmbeddedDocument, XMLSerializableMixin, ElementMixin):
     children = ListField(ElementEmbeddedDocumentField())
-
-
+    
 class Properties(Element):
     Label = KeyValuePairField()
+    

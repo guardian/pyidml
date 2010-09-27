@@ -13,6 +13,7 @@ class GraphicTest(FreshersTest):
         self.assertEqual(self.graphic.__class__.__name__, 'Graphic')
         self.assertEqual(self.graphic.DOMVersion, '6.0')
     
+    def test_color(self):
         self.assertEqual(self.graphic.children[0].__class__.__name__, 'Color')
         self.assertEqual(len(self.graphic.get_children('Color')), 24)
         self.assertProps(self.graphic.children[0], 

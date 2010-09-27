@@ -1,6 +1,10 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
 
+class Graphic(Element):
+    DOMVersion = StringField(required=True)
+    
+
 class Swatch(Element):
     Self = StringField(required=True)
     Name = StringField(required=True)
@@ -23,6 +27,7 @@ class Color(Swatch):
 
 class Gradient(Swatch):
     Type = StringField()
+    
 
 class GradientStop(Element):
     Self = StringField(required=True)
@@ -38,7 +43,7 @@ class Tint(Swatch):
     ColorOverride = StringField()
     SpotInkAliasSpotColorReference = StringField()
     TintValue = FloatField()
-
+    
 
 class MixedInk(Swatch):
     BaseColor = StringField(required=True)
@@ -49,7 +54,7 @@ class MixedInk(Swatch):
     MixedInkSpotColorNameList = SpaceSeparatedListField(StringField())
     Model = StringField()
     Space = StringField()
-
+    
 
 class MixedInkGroup(Swatch):
     InkList = SpaceSeparatedListField(StringField(), required=True)
@@ -57,7 +62,7 @@ class MixedInkGroup(Swatch):
     MixedInkSpotColorList = SpaceSeparatedListField(StringField())
     MixedInkSpotColorNameList = SpaceSeparatedListField(StringField())
     Model = StringField()
-
+    
 
 class Ink(Element):
     Self = StringField(required=True)
@@ -70,12 +75,12 @@ class Ink(Element):
     NeutralDensity = FloatField()
     PrintInk = BooleanField()
     TrapOrder = IntField()
-
+    
 
 class StrokeStyle(Element):
     Self = StringField(required=True)
     Name = StringField(required=True)
-
+    
 
 class DashedStrokeStyle(Element):
     Self = StringField(required=True)
@@ -90,15 +95,17 @@ class DottedStrokeStyle(Element):
     Name = StringField(required=True)
     DotArray = SpaceSeparatedListField(FloatField())
     StrokeCornerAdjustment = StringField()
-
+    
 
 class StripedStrokeStyle(Element):
     Self = StringField(required=True)
     Name = StringField(required=True)
     StripeArray = SpaceSeparatedListField(FloatField())
+    
 
 class PastedSmoothShadeProperties(Properties):
     Contents = StringField()
+    
 
 class PastedSmoothShade(Swatch):
     ContentsVersion = IntField()
@@ -108,7 +115,4 @@ class PastedSmoothShade(Swatch):
     ContentsMatrix = SpaceSeparatedListField(FloatField())
     
     Properties = EmbeddedDocumentField(PastedSmoothShadeProperties)
-
-class Graphic(Element):
-    DOMVersion = StringField(required=True)
-
+    
