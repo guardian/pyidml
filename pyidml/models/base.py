@@ -6,9 +6,13 @@ class XMLSerializableMixin(object):
     def from_xml(cls, e):
         data = {}
         
+        element_subclasses = dict(
+            (k.split('.')[-1], v)
+            for k, v in Element._get_subclasses().items()
+        )
+        
         for attr, value in e.items():
-            if attr in cls._fields:
-                data[attr] = cls._fields[attr].to_python(value)
+            data[attr] = cls._fields[attr].to_python(value)
         for child in e:
             # If we have specifically defined a field for this child element, 
             # use that
@@ -17,13 +21,11 @@ class XMLSerializableMixin(object):
             # Otherwise, try to magically add it to self.children by finding 
             # the right subclass of Element
             else:
-                subclasses = Element._get_subclasses()
-                subclass_name = 'Element.' + child.tag
-                if subclass_name in subclasses:
+                if child.tag in element_subclasses:
                     if 'children' not in data:
                         data['children'] = []
                     data['children'].append(
-                        subclasses[subclass_name].from_xml(child)
+                        element_subclasses[child.tag].from_xml(child)
                     )
         
         return cls(**data)

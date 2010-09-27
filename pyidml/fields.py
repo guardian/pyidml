@@ -1,10 +1,18 @@
 import mongoengine
 from xml.etree import ElementTree
 
-StringField = mongoengine.StringField
 IntField = mongoengine.IntField
 FloatField = mongoengine.FloatField
 ListField = mongoengine.ListField
+
+
+class StringField(mongoengine.StringField):
+    def to_python(self, value):
+        if isinstance(value, ElementTree._ElementInterface):
+            value = value.text
+        return super(StringField, self).to_python(value)
+    
+    
 
 class BooleanField(mongoengine.BooleanField):
     def to_python(self, value):

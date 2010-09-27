@@ -9,6 +9,6 @@ setup(
     author='Ben Firshman',
     author_email='ben@firshman.co.uk',
     url='',
-    packages = ['pyidml'],
-    test_suite = 'nose.collector',
+    packages=['pyidml'],
+    test_suite='nose.collector',
 )
