@@ -24,6 +24,7 @@ class Document(mongoengine.Document, XMLSerializableMixin, ElementMixin):
     Converted = BooleanField()
     Recovered = BooleanField()
     ReadOnly = BooleanField()
+    Id = IntField() # new in 7.0
     CMYKProfileList = SpaceSeparatedListField(StringField())
     RGBProfileList = SpaceSeparatedListField(StringField())
     CMYKProfile = StringField()
@@ -132,7 +133,6 @@ class CustomTextVariablePreference(Element):
 
 
 class FileNameVariablePreference(BaseTextVariable):
-    Self = StringField(required=True)
     IncludePath = BooleanField()
     IncludeExtension = BooleanField()
     
@@ -162,6 +162,10 @@ class MatchParagraphStylePreference(BaseTextVariable):
     ChangeCase = StringField()
     DeleteEndPunctuation = BooleanField()
     SearchStrategy = StringField()
+    
+
+class CaptionMetadataVariablePreference(BaseTextVariable):
+    MetadataProviderName = StringField()
     
 
 class LayerProperties(Properties):
@@ -547,3 +551,45 @@ class AssignedStory(Element):
     
     Properties = EmbeddedDocumentField(Properties)
     
+
+class MotionPresetProperties(Properties):
+    Contents = StringField()
+    
+
+class MotionPreset(Element):
+    """
+    InDesign includes a number of motion presets-default animation settings that 
+    can be applied to page items in an InDesign document. (new in 7.0)
+    """
+    Self = StringField(required=True)
+    Name = StringField()
+    EditLocked = BooleanField()
+    DeleteLocked = BooleanField()
+    NameLocked = BooleanField()
+    
+    Properties = EmbeddedDocumentField(MotionPresetProperties)
+    
+
+class WatermarkPreferenceProperties(Element):
+    WatermarkFontColor = StringField()
+
+
+class WatermarkPreference(Element):
+    """
+    (new in 7.0)
+    """
+    WatermarkVisibility = BooleanField()
+    WatermarkDoPrint = BooleanField()
+    WatermarkDrawInBack = BooleanField()
+    WatermarkText = StringField()
+    WatermarkFontFamily = StringField()
+    WatermarkFontStyle = StringField()
+    WatermarkFontPointSize = IntField()
+    WatermarkOpacity = IntField()
+    WatermarkRotation = IntField()
+    WatermarkHorizontalPosition = StringField()
+    WatermarkHorizontalPosition = FloatField()
+    WatermarkVerticalPosition = StringField()
+    WatermarkVerticalOffset = StringField()
+    
+
