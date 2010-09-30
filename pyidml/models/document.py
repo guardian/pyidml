@@ -99,7 +99,7 @@ class ConditionSet(Element):
 
 class ConditionalTextPreference(Element):
     Self = StringField(required=True)
-    ShowConditionIndicators = BooleanField()
+    ShowConditionIndicators = StringField()
     ActiveConditionSet = StringField()
     
 
@@ -403,6 +403,10 @@ class NamedGrid(Element):
     Properties = EmbeddedDocumentField(Properties)
     
 
+class GridDataInformationProperties(Properties):
+    AppliedFont = StringField()
+    
+
 class GridDataInformation(Element):
     FontStyle = StringField()
     PointSize = FloatField()
@@ -417,7 +421,7 @@ class GridDataInformation(Element):
     CharacterCountLocation = StringField()
     CharacterCountSize = FloatField()
     
-    Properties = EmbeddedDocumentField(Properties)
+    Properties = EmbeddedDocumentField(GridDataInformationProperties)
     
 
 class MetadataPacketPreferenceProperties(Element):

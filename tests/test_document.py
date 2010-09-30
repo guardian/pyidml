@@ -91,4 +91,109 @@ class DocumentTest(FreshersTest):
             ContinueNumbersAcrossStories=False,
             ContinueNumbersAcrossDocuments=False
         )
-
+    
+    def test_named_grid(self):
+        element = doc.children[8]
+        self.assertEqual(
+            element.__class__.__name__,
+            'NamedGrid'
+        )
+        self.assertProps(element,
+            Self="NamedGrid/$ID/[Page Grid]",
+            Name="$ID/[Page Grid]"
+        )
+        
+        self.assertEqual(len(element.children), 1)
+        self.assertEqual(
+            element.children[0].__class__.__name__,
+            'GridDataInformation'
+        )
+        self.assertProps(element.children[0],
+            FontStyle="Regular",
+            PointSize=12,
+            CharacterAki=0,
+            LineAki=9,
+            HorizontalScale=100,
+            VerticalScale=100,
+            LineAlignment="LeftOrTopLineJustify",
+            GridAlignment="AlignEmCenter",
+            CharacterAlignment="AlignEmCenter"
+        )
+        self.assertEqual(
+            element.children[0].Properties.AppliedFont,
+            "Times New Roman"
+        )
+    
+    def test_MetadataPacketPreference(self):
+        element = doc.children[10]
+        self.assertEqual(
+            element.__class__.__name__,
+            'MetadataPacketPreference'
+        )
+        self.assertTrue(isinstance(element.Properties.Contents, basestring))
+        
+    def test_ConditionalTextPreference(self):
+        element = doc.children[11]
+        self.assertEqual(
+            element.__class__.__name__,
+            'ConditionalTextPreference'
+        )
+        self.assertProps(element,
+            ShowConditionIndicators="ShowIndicators",
+            ActiveConditionSet="n"
+        )
+    
+    def test_Layer(self):
+        element = doc.children[13]
+        self.assertEqual(
+            element.__class__.__name__,
+            'Layer'
+        )
+        self.assertProps(element,
+            Self="ua4",
+            Name="Layer 1",
+            Visible=True,
+            Locked=False,
+            IgnoreWrap=False,
+            ShowGuides=True,
+            LockGuides=False,
+            UI=True,
+            Expendable=True,
+            Printable=True
+        )
+        self.assertEqual(element.Properties.LayerColor, 'LightBlue')
+    
+    # TODO: DocumentUser, CrossReferenceFormat, IndexingSortOption
+    
+    def test_ABullet(self):
+        self.assertEqual(len(doc.get_children('ABullet')), 6)
+        element = doc.get_children('ABullet')[0]
+        self.assertEqual(
+            element.__class__.__name__,
+            'ABullet'
+        )
+        self.assertProps(element,
+            Self="dABullet0",
+            CharacterType="UnicodeOnly",
+            CharacterValue=8226
+        )
+        self.assertEqual(element.Properties.BulletsFont, '$ID/')
+        self.assertEqual(element.Properties.BulletsFontStyle, '$ID/')
+    
+    def test_Assignment(self):
+        self.assertEqual(len(doc.get_children('Assignment')), 1)
+        element = doc.get_children('Assignment')[0]
+        self.assertEqual(
+            element.__class__.__name__,
+            'Assignment'
+        )
+        self.assertProps(element,
+            Self="u94",
+            Name="$ID/UnassignedInCopy",
+            UserName="$ID/", 
+            ExportOptions="AssignedSpreads",
+            IncludeLinksWhenPackage=True,
+            FilePath="$ID/"
+        )
+        self.assertEqual(element.Properties.FrameColor, 'Nothing')
+        
