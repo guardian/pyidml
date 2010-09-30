@@ -26,7 +26,9 @@ class Spread(Element):
     
     @classmethod
     def from_xml(cls, e):
-        return super(Spread, cls).from_xml(e[0])
+        if e[0] and e[0].tag == 'Spread':
+            e = e[0]
+        return super(Spread, cls).from_xml(e)
     
 
 class MasterSpreadProperties(Properties):
@@ -52,7 +54,9 @@ class MasterSpread(Element):
     
     @classmethod
     def from_xml(cls, e):
-        return super(MasterSpread, cls).from_xml(e[0])
+        if e[0] and e[0].tag == 'MasterSpread':
+            e = e[0]
+        return super(MasterSpread, cls).from_xml(e)
     
 
 class PathPointType(Element):
