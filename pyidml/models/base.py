@@ -12,7 +12,12 @@ class XMLSerializableMixin(object):
         )
         
         for attr, value in e.items():
-            data[attr] = cls._fields[attr].to_python(value)
+            try:
+                field = cls._fields[attr]
+            except KeyError, e:
+                raise KeyError('%s on %s' % (e, cls))
+            data[attr] = field.to_python(value)
+            
         for child in e:
             # If we have specifically defined a field for this child element, 
             # use that
