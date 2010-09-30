@@ -1,22 +1,23 @@
 import mongoengine
 from pyidml.fields import *
+from pyidml.utils import memoized
+import sys
 
 class XMLSerializableMixin(object):
     @classmethod
     def from_xml(cls, e):
         data = {}
-        
-        element_subclasses = dict(
-            (k.split('.')[-1], v)
-            for k, v in Element._get_subclasses().items()
-        )
+        subclass_tags = Element._get_subclass_tags()
         
         for attr, value in e.items():
             try:
-                field = cls._fields[attr]
-            except KeyError, e:
-                raise KeyError('%s on %s' % (e, cls))
-            data[attr] = field.to_python(value)
+                data[attr] = cls._fields[attr].to_python(value)
+            except:
+                exc_class, exc, tb = sys.exc_info()
+                new_exc = Exception('%s (%s in %s)'
+                                    % (exc or exc_class, attr, cls))
+                raise exc_class, new_exc, tb
+            
             
         for child in e:
             # If we have specifically defined a field for this child element, 
@@ -26,11 +27,11 @@ class XMLSerializableMixin(object):
             # Otherwise, try to magically add it to self.children by finding 
             # the right subclass of Element
             else:
-                if child.tag in element_subclasses:
+                if child.tag in subclass_tags:
                     if 'children' not in data:
                         data['children'] = []
                     data['children'].append(
-                        element_subclasses[child.tag].from_xml(child)
+                        subclass_tags[child.tag].from_xml(child)
                     )
         
         return cls(**data)
@@ -58,6 +59,27 @@ class ElementMixin(object):
 class Element(mongoengine.EmbeddedDocument, XMLSerializableMixin, ElementMixin):
     children = ListField(ElementEmbeddedDocumentField())
     
+    @classmethod
+    def _get_subclasses(cls):
+        try:
+            return cls._subclasses
+        except AttributeError:
+            cls._subclasses = super(Element, cls)._get_subclasses()
+            return cls._subclasses
+    
+    @classmethod
+    def _get_subclass_tags(cls):
+        try:
+            return cls._subclass_tags
+        except AttributeError:
+            cls._subclass_tags = dict([
+                (k.split('.')[-1], v)
+                for k, v in cls._get_subclasses().items()
+            ])
+            return cls._subclass_tags
+        
+    
+
 class Properties(Element):
     Label = KeyValuePairField()
     

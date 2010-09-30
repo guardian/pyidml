@@ -2,6 +2,10 @@ from pyidml.fields import *
 from pyidml.models import Element, Properties
 from stories import BaseTextElement
 
+class Styles(Element):
+    DOMVersion = StringField(required=True)
+    
+
 class ParagraphStyleGroup(Element):
     Self = StringField(required=True)
     Name = StringField()
@@ -14,6 +18,7 @@ class RootParagraphStyleGroup(ParagraphStyleGroup):
     
 
 class ParagraphStyle(BaseTextElement):
+    Name = StringField()
     Imported = BooleanField()
     KeyboardShortcut = StringField()
     NextStyle = StringField()

@@ -1,4 +1,4 @@
-from tests import FreshersTest
+from tests import FreshersTest, doc
 
 class FontsTest(FreshersTest):
     """
@@ -7,7 +7,7 @@ class FontsTest(FreshersTest):
     
     def setUp(self):
         super(FontsTest, self).setUp()
-        self.fonts = self.doc.children[3]
+        self.fonts = doc.children[3]
     
     def test_fonts(self):
         self.assertEqual(self.fonts.__class__.__name__, 'Fonts')

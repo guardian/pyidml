@@ -1,4 +1,4 @@
-from tests import FreshersTest
+from tests import FreshersTest, doc
 
 class GraphicTest(FreshersTest):
     """
@@ -7,7 +7,7 @@ class GraphicTest(FreshersTest):
     
     def setUp(self):
         super(GraphicTest, self).setUp()
-        self.graphic = self.doc.children[2]
+        self.graphic = doc.children[2]
     
     def test_graphic(self):
         self.assertEqual(self.graphic.__class__.__name__, 'Graphic')
