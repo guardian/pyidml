@@ -359,6 +359,28 @@ class ImageIOPreference(Element):
     AlphaChannelName = StringField()
     
 
+class GraphicLayerOption(Element):
+    UpdateLinkOption = StringField()
+    
+
+class GraphicLayer(Element):
+    Self = StringField(required=True)
+    Name = StringField()
+    OriginalVisibility = BooleanField()
+    CurrentVisibility = BooleanField()
+    SeparatorLayer = BooleanField()
+    AdjustmentLayer = BooleanField()
+    FXLayer = BooleanField()
+    Locked = BooleanField()
+    HasViewState = BooleanField()
+    ViewState = BooleanField()
+    HasExportState = BooleanField()
+    ExportState = BooleanField()
+    HasPrintState = BooleanField()
+    PrintState = BooleanField()
+    Id = IntField()
+    
+
 class NavigationPoint(Element):
     """
     A <NavigationPoint> element in a <Movie> element represents a cue point in 

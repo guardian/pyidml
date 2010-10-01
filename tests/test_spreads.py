@@ -341,3 +341,130 @@ class SpreadTest(FreshersTest):
             'Right': 0
         })
         
+    def test_PDF(self):
+        element = self.spread.get_children('Rectangle')[3].get_children('PDF')[0]
+        self.assertElement(element, 'PDF',
+            Self="u1301",
+            GrayVectorPolicy="IgnoreAll",
+            RGBVectorPolicy="IgnoreAll",
+            CMYKVectorPolicy="IgnoreAll", 
+            AppliedObjectStyle="ObjectStyle/$ID/[None]", 
+            LocalDisplaySetting="Default",
+            ImageTypeName="$ID/Adobe Portable Document Format (PDF)", 
+            ItemTransform=[0.05655866557515179, 0, 0, 0.05655866557515178, -272.92794057023787, 193.11138907173793]
+        )
+        self.assertEqual(element.Properties.GraphicBounds, {
+            'Top': 680.2579956054688,
+            'Left': 2.156005859375,
+            'Bottom': 1221.051025390625,
+            'Right': 547.7680053710938
+        })
+        
+        # Check TextWrapPreference
+        self.assertElement(element.children[0], 'TextWrapPreference',        
+            Inverse=False,
+            ApplyToMasterPageOnly=False,
+            TextWrapSide="BothSides",
+            TextWrapMode="None"
+        )
+        self.assertEqual(element.children[0].Properties.TextWrapOffset, {
+            'Top': 0,
+            'Left': 0,
+            'Bottom': 0,
+            'Right': 0
+        })
+        self.assertElement(element.children[0].children[0], 'ContourOption',
+            ContourType="SameAsClipping",
+            IncludeInsideEdges=False,
+            ContourPathName="$ID/"
+        )
+        
+        # Check PDFAttribute
+        self.assertElement(element.children[1], 'PDFAttribute',
+            PageNumber=1,
+            PDFCrop="CropContent",
+            TransparentBackground=True
+        )
+        
+        # Check MetadataPacketPreference
+        self.assertElement(element.children[2], 'MetadataPacketPreference')
+        self.assertTrue(
+            element.children[2].Properties.Contents.startswith('<?xpacket')
+        )
+        
+        # Check Link
+        self.assertElement(element.children[3], 'Link',
+            Self="u1305",
+            AssetURL="$ID/",
+            AssetID="$ID/",
+            LinkResourceURI="file:/Users/ben/Documents/Boar/Volume%2033/Issue%200/Global/Graphics/Recycling_symbol2.ai",
+            LinkResourceFormat="$ID/Adobe Portable Document Format (PDF)", 
+            StoredState="Normal",
+            LinkClassID=35906,
+            LinkClientID=257,
+            LinkResourceModified=False,
+            LinkObjectModified=False,
+            ShowInUI=True,
+            CanEmbed=True,
+            CanUnembed=True,
+            CanPackage=True,
+            ImportPolicy="NoAutoImport",
+            ExportPolicy="NoAutoExport",
+            LinkImportStamp="file 129158107480000000 62527", 
+            LinkImportModificationTime="2010-04-15T13:12:28", 
+            LinkImportTime="2010-08-19T18:16:27"
+        )
+        
+        # Check ClippingPathSettings
+        self.assertElement(element.children[4], 'ClippingPathSettings',
+            ClippingType="None",
+            InvertPath=False,
+            IncludeInsideEdges=False,
+            RestrictToFrame=False,
+            UseHighResolutionImage=True,
+            Threshold=25,
+            Tolerance=2,
+            InsetFrame=0,
+            AppliedPathName="$ID/",
+            Index=-1
+        )
+        
+        # Check ClippingPathSettings
+        self.assertElement(element.children[5], 'GraphicLayerOption',
+            UpdateLinkOption="ApplicationSettings"
+        )
+    
+    def test_Group(self):
+        element = self.spread.get_children('Group')[0]
+        self.assertElement(element, 'Group',
+            Self="u1321",
+            AppliedObjectStyle="ObjectStyle/$ID/[None]",
+            GradientFillStart=[0, 0],
+            GradientFillLength=0,
+            GradientFillAngle=0,
+            GradientStrokeStart=[0, 0],
+            GradientStrokeLength=0,
+            GradientStrokeAngle=0,
+            ItemLayer="ua4",
+            Locked=False,
+            LocalDisplaySetting="Default",
+            GradientFillHiliteLength=0,
+            GradientFillHiliteAngle=0,
+            GradientStrokeHiliteLength=0,
+            GradientStrokeHiliteAngle=0,
+            ItemTransform=[1, 0, 0, 1, 319.918109851747, 524.5795244352084]
+        )
+    
+    def test_MasterSpread(self):
+        element = doc.get_children('MasterSpread')[12]
+        self.assertElement(element, 'MasterSpread',
+            Self="u481",
+            ItemTransform=[1, 0, 0, 1, 0, 0],
+            Name="B-Travel",
+            NamePrefix="B",
+            BaseName="Travel",
+            ShowMasterItems=True,
+            PageCount=2,
+            OverriddenPageItemProps=""
+        )
+    
