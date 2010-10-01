@@ -10,6 +10,17 @@ class LeadingField(FloatField):
             return super(LeadingField, self).to_python(value)
     
 
+class BulletChar(Element):
+    BulletCharacterType = StringField()
+    BulletCharacterValue = IntField()
+    
+
+class NumberingRestartPolicies(Element):
+    RestartPolicy = StringField()
+    LowerLevel = IntField()
+    UpperLevel = IntField()
+    
+
 class TextElementProperties(Properties):
     AllGREPStyles = StringField() # TODO: ListItem
     AllLineStyles = StringField() # TODO: ListItem
@@ -17,7 +28,7 @@ class TextElementProperties(Properties):
     AppliedFont = StringField()
     AppliedNumberingList = StringField()
     BalanceRaggedLines = StringField() # TODO: boolean or BalanceLinesStyle_EnumValue
-    BulletChar = StringField() # TODO: undefined
+    BulletChar = EmbeddedDocumentField(BulletChar)
     BulletsCharacterStyle = StringField()
     BulletsFont = StringField()
     BulletsFontStyle = StringField()
@@ -31,7 +42,7 @@ class TextElementProperties(Properties):
     Mojikumi = StringField()
     NumberingCharacterStyle = StringField()
     NumberingFormat = StringField()
-    NumberingRestartPolicies = StringField() # TODO: undefined
+    NumberingRestartPolicies = EmbeddedDocumentField(NumberingRestartPolicies)
     OpenTypeFeatures = StringField() # TODO: ListItem
     RubyFill = StringField()
     RubyFont = StringField()
@@ -83,9 +94,9 @@ class BaseTextElement(Element):
     CharacterRotation = FloatField()
     CjkGridTracking = BooleanField()
     Composer = StringField()
-    DesiredGlyphScaling = StringField()
-    DesiredLetterSpacing = StringField()
-    DesiredWordSpacing = StringField()
+    DesiredGlyphScaling = FloatField()
+    DesiredLetterSpacing = FloatField()
+    DesiredWordSpacing = FloatField()
     DiacriticPosition = StringField()
     DigitsType = StringField()
     DropCapCharacters = IntField()
@@ -162,7 +173,6 @@ class BaseTextElement(Element):
     MiterLimit = FloatField()
     NoBreak = BooleanField()
     NumberingAlignment = StringField()
-    NumberingAlignment = BooleanField()
     NumberingContinue = BooleanField()
     NumberingExpression = StringField()
     NumberingLevel = IntField()

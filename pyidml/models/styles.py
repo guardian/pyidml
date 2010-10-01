@@ -1,6 +1,6 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
-from stories import BaseTextElement
+from stories import BaseTextElement, TextElementProperties
 
 class Styles(Element):
     DOMVersion = StringField(required=True)
@@ -17,12 +17,17 @@ class RootParagraphStyleGroup(ParagraphStyleGroup):
     pass
     
 
+class ParagraphStyleProperties(TextElementProperties):
+    BasedOn = StringField()
+    
+
 class ParagraphStyle(BaseTextElement):
     Name = StringField()
     Imported = BooleanField()
-    KeyboardShortcut = StringField()
+    KeyboardShortcut = SpaceSeparatedListField(IntField())
     NextStyle = StringField()
-    BasedOn = StringField()
+    
+    Properties = EmbeddedDocumentField(ParagraphStyleProperties)
     
 
 # TODO: AllNestedStyles
@@ -38,12 +43,18 @@ class RootCharacterStyleGroup(CharacterStyleGroup):
     pass
     
 
+class CharacterStyleProperties(TextElementProperties):
+    BasedOn = StringField()
+    PreviewColor = StringField()
+    
+
 class CharacterStyle(BaseTextElement):
     Name = StringField()
     Imported = BooleanField()
-    KeyboardShortcut = StringField()
+    KeyboardShortcut = SpaceSeparatedListField(IntField())
     NextStyle = StringField()
-    BasedOn = StringField()
+    
+    Properties = EmbeddedDocumentField(CharacterStyleProperties)
     
 
 # TODO: TableStyles, CellStyles
@@ -65,6 +76,7 @@ class RootObjectStyleGroup(ObjectStyleGroup):
 
 class ObjectStyleProperties(Properties):
     BasedOn = StringField()
+    PreviewColor = StringField()
     
 
 class ObjectStyle(Element):
