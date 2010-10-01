@@ -9,11 +9,11 @@ class FontsTest(FreshersTest):
         super(FontsTest, self).setUp()
         self.fonts = doc.children[3]
     
-    def test_fonts(self):
+    def test_Fonts(self):
         self.assertEqual(self.fonts.__class__.__name__, 'Fonts')
         self.assertEqual(self.fonts.DOMVersion, '6.0')
     
-    def test_font_family(self):
+    def test_FontFamily(self):
         self.assertEqual(
             self.fonts.children[0].__class__.__name__, 
             'FontFamily'
@@ -24,7 +24,7 @@ class FontsTest(FreshersTest):
             Name="Myriad Pro"
         )
     
-    def test_font(self):
+    def test_Font(self):
         font_family = self.fonts.children[0]
         self.assertEqual(
             font_family.children[0].__class__.__name__, 
@@ -47,7 +47,7 @@ class FontsTest(FreshersTest):
             Version="Version 2.006;PS 002.000;Core 1.0.38;makeotf.lib1.6.6565",
         )
     
-    def test_composite_font(self):
+    def test_CompositeFont(self):
         composite_font = self.fonts.get_children('CompositeFont')[0]
         self.assertEqual(
             composite_font.__class__.__name__, 
@@ -59,7 +59,7 @@ class FontsTest(FreshersTest):
             Name="$ID/[No composite font]"
         )
         
-    def test_composite_font_entry(self):
+    def test_CompositeFontEntry(self):
         composite_font = self.fonts.get_children('CompositeFont')[0]
         self.assertEqual(
             composite_font.children[0].__class__.__name__, 

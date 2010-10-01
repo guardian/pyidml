@@ -6,7 +6,7 @@ class DocumentTest(FreshersTest):
     Test designmap.xml is parsed correctly
     """
     
-    def test_document(self):
+    def test_Document(self):
         self.assertEqual(doc.DOMVersion, "6.0")
         self.assertEqual(doc.Self, "d")
         self.assertEqual(doc.ActiveProcess, None)
@@ -42,7 +42,7 @@ class DocumentTest(FreshersTest):
         self.assertEqual(doc.children[2].__class__.__name__, 'Graphic')
         self.assertFalse(hasattr(doc.children[2], 'src'))
     
-    def test_languages(self):
+    def test_Language(self):
         self.assertEqual(doc.children[0].__class__.__name__, 'Language')
         self.assertProps(doc.children[0],
             Self='Language/$ID/English%3a UK',
@@ -69,7 +69,7 @@ class DocumentTest(FreshersTest):
             SpellingVendor="Proximity",
         )
     
-    def test_mojikumi_table(self):
+    def test_MojikumiTable(self):
         self.assertEqual(
             doc.children[4].__class__.__name__,
             'MojikumiTable'
@@ -79,7 +79,7 @@ class DocumentTest(FreshersTest):
             Name="$ID/kMojikumiDefaultName15"
         )
     
-    def test_numbering_list(self):
+    def test_NumberingList(self):
         element = doc.children[7]
         self.assertEqual(
             element.__class__.__name__,
@@ -92,7 +92,7 @@ class DocumentTest(FreshersTest):
             ContinueNumbersAcrossDocuments=False
         )
     
-    def test_named_grid(self):
+    def test_NamedGrid(self):
         element = doc.children[8]
         self.assertEqual(
             element.__class__.__name__,

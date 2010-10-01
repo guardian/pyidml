@@ -9,11 +9,11 @@ class GraphicTest(FreshersTest):
         super(GraphicTest, self).setUp()
         self.graphic = doc.children[2]
     
-    def test_graphic(self):
+    def test_Graphic(self):
         self.assertEqual(self.graphic.__class__.__name__, 'Graphic')
         self.assertEqual(self.graphic.DOMVersion, '6.0')
     
-    def test_color(self):
+    def test_Color(self):
         self.assertEqual(self.graphic.children[0].__class__.__name__, 'Color')
         self.assertEqual(len(self.graphic.get_children('Color')), 24)
         self.assertProps(self.graphic.children[0], 
@@ -31,7 +31,7 @@ class GraphicTest(FreshersTest):
             SwatchCreatorID=7937,
         )
     
-    def test_ink(self):
+    def test_Ink(self):
         self.assertEqual(self.graphic.children[24].__class__.__name__, 'Ink')
         self.assertEqual(len(self.graphic.get_children('Ink')), 4)
         self.assertProps(self.graphic.children[24],
@@ -46,7 +46,7 @@ class GraphicTest(FreshersTest):
             InkType='Normal',
         )
     
-    def test_pasted_smooth_shade(self):
+    def test_PastedSmoothShade(self):
         self.assertEqual(self.graphic.children[28].__class__.__name__, 'PastedSmoothShade')
         self.assertEqual(len(self.graphic.get_children('PastedSmoothShade')), 1)
         self.assertProps(self.graphic.children[28], 
@@ -67,7 +67,7 @@ class GraphicTest(FreshersTest):
             'AAAAAT/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=='
         )
     
-    def test_swatch(self):
+    def test_Swatch(self):
         self.assertEqual(self.graphic.children[29].__class__.__name__, 'Swatch')
         self.assertEqual(len(self.graphic.get_children('Swatch')), 1)
         self.assertProps(self.graphic.children[29],
@@ -79,7 +79,7 @@ class GraphicTest(FreshersTest):
             SwatchCreatorID=7937,
         )
     
-    def test_gradient(self):
+    def test_Gradient(self):
         gradient = self.graphic.children[30]
         self.assertEqual(
             gradient.__class__.__name__,
@@ -107,7 +107,7 @@ class GraphicTest(FreshersTest):
             Location=0
         )
     
-    def test_stroke_style(self):
+    def test_StrokeStyle(self):
         self.assertEqual(
             self.graphic.children[31].__class__.__name__, 
             'StrokeStyle'
