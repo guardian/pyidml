@@ -360,6 +360,19 @@ class CharacterStyleRange(BaseTextElement):
     """
     
 
+class Content(Element):
+    def __unicode__(self):
+        return self.text
+    
+    @classmethod
+    def from_xml(cls, e):
+        instance = cls()
+        instance.text = e.text
+        return instance
+
+class Br(Element):
+    pass
+
 # TODO: Tables
 # TODO: Notes
 

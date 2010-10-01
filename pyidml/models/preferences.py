@@ -37,7 +37,23 @@ class DataMergeOption(Element):
     DocumentSize = IntField()
     
 
-# TODO: LayoutAdjustmentPreference, XMLImportPeference, XMLExportPreference, XMLPreference, ExportForWebPreference, TransparencyPreference, TransparencyDefaultContainerObject, StoryPreference, TextPreference, TextDefault, DictionaryPreference, AnchoredObjectDefault, AnchoredObjectSetting, BaselineFrameGridOption, FootnoteOption, 
+# TODO: LayoutAdjustmentPreference, XMLImportPeference, XMLExportPreference, XMLPreference, ExportForWebPreference, TransparencyPreference, TransparencyDefaultContainerObject
+
+class StoryPreference(Element):
+    """
+    The <StoryPreference> element controls the default story preferences for 
+    stories in an InDesign document. Values that you specify here will apply to 
+    the story preferences of all stories that do not explicitly define these 
+    attributes.
+    """
+    OpticalMarginAlignment = BooleanField()
+    OpticalMarginSize = FloatField()
+    FrameType = StringField()
+    StoryOrientation = StringField()
+    StoryDirection = StringField()
+    
+
+# TextPreference, TextDefault, DictionaryPreference, AnchoredObjectDefault, AnchoredObjectSetting, BaselineFrameGridOption, FootnoteOption, 
 
 
 class TextWrapPreferenceProperties(Properties):
