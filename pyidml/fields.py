@@ -69,6 +69,14 @@ class PropertiesField(mongoengine.DictField):
                     d[child.tag] = self.to_python(child)
             return d
         return super(PropertiesField, self).to_python(value)
-        
-            
+    
+
+class RectangleBoundsField(mongoengine.DictField):
+    def to_python(self, value):
+        if isinstance(value, ElementTree._ElementInterface):
+            d = {}
+            for attr in ('Top', 'Left', 'Bottom', 'Right'):
+                d[attr] = float(value.get(attr))
+            return d
+        return super(RectangleBoundsField, self).to_python(value)
 

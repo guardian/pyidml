@@ -12,9 +12,8 @@ def load_files(fh):
     d = {}
     zf = zipfile.ZipFile(fh, 'r')
     for filename in zf.namelist():
-        if not filename.endswith('.xml'):
-            continue
-        d[filename] = ElementTree.fromstring(zf.read(filename))
+        if filename.endswith('.xml'):
+            d[filename] = ElementTree.fromstring(zf.read(filename))
     return d
 
 def normalize(element, files):

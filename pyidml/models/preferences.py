@@ -1,5 +1,6 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
+from spreads import GeometryPathType
 
 class Preferences(Element):
     """
@@ -36,7 +37,34 @@ class DataMergeOption(Element):
     DocumentSize = IntField()
     
 
-# TODO: LayoutAdjustmentPreference, XMLImportPeference, XMLExportPreference, XMLPreference, ExportForWebPreference, TransparencyPreference, TransparencyDefaultContainerObject, StoryPreference, TextPreference, TextDefault, DictionaryPreference, AnchoredObjectDefault, AnchoredObjectSetting, BaselineFrameGridOption, FootnoteOption, TextWrapPreference, ContourOption, 
+# TODO: LayoutAdjustmentPreference, XMLImportPeference, XMLExportPreference, XMLPreference, ExportForWebPreference, TransparencyPreference, TransparencyDefaultContainerObject, StoryPreference, TextPreference, TextDefault, DictionaryPreference, AnchoredObjectDefault, AnchoredObjectSetting, BaselineFrameGridOption, FootnoteOption, 
+
+
+class TextWrapPreferenceProperties(Properties):
+    TextWrapOffset = RectangleBoundsField()
+    PathGeometry = ListField(EmbeddedDocumentField(GeometryPathType))
+
+
+class TextWrapPreference(Element):
+    """
+    The <TextWrapPreference> element controls the default text wrap applied to 
+    page items in an InDesign document. Values that you specify here will apply 
+    to all text wraps that do not explicitly define these attributes and 
+    elements.
+    """
+    Inverse = BooleanField()
+    ApplyToMasterPageOnly = BooleanField()
+    TextWrapSide = StringField()
+    TextWrapMode = StringField()
+    
+    Properties = EmbeddedDocumentField(TextWrapPreferenceProperties)
+    
+
+class ContourOption(Element):
+    ContourType = StringField()
+    IncludeInsideEdges = BooleanField()
+    ContourPathName = StringField()
+    
 
 class DocumentPreferenceProperties(Properties):
     ColumnGuideColor = StringField() # TODO: InDesignUIColorType_TypeDef
@@ -98,7 +126,24 @@ class MarginPreference(Element):
     ColumnsPositions = SpaceSeparatedListField(FloatField())
     
 
-# TODO: PasteboardPreference, ViewPreference, PrintPreference, PrintBookletOption, PrintBookletPrintPreference, IndexOptions, IndexHeaderSetting, PageItemDefault, FrameFittingOption, ButtonPreference, TinDocumentDDataObject, LayoutGridDataInformation, StoryGridDataInformation, CjkGridPreference, MojikumiUiPreference, ChapterNumberPreference, 
+# TODO: PasteboardPreference, ViewPreference, PrintPreference, PrintBookletOption, PrintBookletPrintPreference, IndexOptions, IndexHeaderSetting, PageItemDefault, 
+
+class FrameFittingOption(Element):
+    """
+    The <FrameFittingOption> element controls the default fitting behavior for 
+    all page items in a document. Values that you specify here will apply to all 
+    page items that do not explicitly define these attributes and elements.
+    """
+    AutoFit = BooleanField()
+    LeftCrop = BooleanField()
+    TopCrop = BooleanField()
+    RightCrop = BooleanField()
+    BottomCrop = BooleanField()
+    FittingOnEmptyFrame = StringField()
+    FittingAlignment = StringField()
+    
+
+# TODO: ButtonPreference, TinDocumentDDataObject, LayoutGridDataInformation, StoryGridDataInformation, CjkGridPreference, MojikumiUiPreference, ChapterNumberPreference, 
 
 
 

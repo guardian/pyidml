@@ -138,10 +138,10 @@ class PageItem(Element):
     RightLineEnd = StringField()
     StrokeColor = StringField()
     StrokeTint = FloatField()
-    GradientFillStart = StringField() # TODO: UnitPointType_TypeDef
+    GradientFillStart = SpaceSeparatedListField(FloatField())
     GradientFillLength = FloatField()
     GradientFillAngle = FloatField()
-    GradientStrokeStart = StringField() # TODO: UnitPointType_TypeDef
+    GradientStrokeStart = SpaceSeparatedListField(FloatField())
     GradientStrokeLength = FloatField()
     GradientStrokeAngle = FloatField()
     OverprintStroke = BooleanField()
@@ -239,13 +239,15 @@ class AnimationSetting(Element):
 # TODO: Animation Timing
 
 
-class GraphicProperties(Properties):
-    Contents = StringField()
-    GraphicProxy = StringField()
+class GraphicProperties(PageItemProperties):
     ClippingPathGeometry = ListField(EmbeddedDocumentField(GeometryPathType))
+    Contents = StringField()
+    GraphicBounds = RectangleBoundsField()
+    GraphicProxy = StringField()
+    
     
 
-class BaseGraphic(Element):
+class BaseGraphic(PageItem):
     """
     Placed (imported) graphics always appear inside a spline item. This spline 
     item can be a rectangle, a graphic line, an oval, or a polygon (these spline 
@@ -260,54 +262,7 @@ class BaseGraphic(Element):
     identical to <Graphic>.
     """
     Self = StringField(required=True)
-    LocalDisplaySetting = StringField()
     ImageTypeName = StringField()
-    AppliedObjectStyle = StringField()
-    ItemTransform = SpaceSeparatedListField(FloatField())
-    FillColor = StringField()
-    FillTint = FloatField()
-    OverprintFill = BooleanField()
-    CornerRadius = BooleanField()
-    StrokeWeight = BooleanField()
-    MiterLimit = FloatField()
-    EndCap = StringField()
-    EndJoin = StringField()
-    StrokeType = StringField()
-    StrokeCornerAdjustment = StringField()
-    StrokeDashAndGap = SpaceSeparatedListField(FloatField())
-    LeftLineEnd = StringField()
-    RightLineEnd = StringField()
-    StrokeColor = StringField()
-    StrokeTint = FloatField()
-    GradientFillStart = SpaceSeparatedListField(FloatField())
-    GradientFillLength = FloatField()
-    GradientFillAngle = FloatField()
-    GradientStrokeStart = SpaceSeparatedListField(FloatField())
-    GradientStrokeLength = FloatField()
-    GradientStrokeAngle = FloatField()
-    OverprintStroke = BooleanField()
-    GapColor = StringField()
-    GapTint = FloatField()
-    OverprintGap = BooleanField()
-    StrokeAlignment = StringField()
-    Nonprinting = BooleanField()
-    ItemLayer = StringField()
-    Locked = BooleanField()
-    GradientFillHiliteLength = FloatField()
-    GradientFillHiliteAngle = FloatField()
-    GradientStrokeHiliteLength = FloatField()
-    GradientStrokeHiliteAngle = FloatField()
-    CornerOption = StringField()
-    Visible = BooleanField()
-    Name = StringField()
-    TopLeftCornerOption = StringField()
-    TopRightCornerOption = StringField()
-    BottomLeftCornerOption = StringField()
-    BottomRightCornerOption = StringField()
-    TopLeftCornerRadius = FloatField()
-    TopRightCornerRadius = FloatField()
-    BottomLeftCornerRadius = FloatField()
-    BottomRightCornerRadius = FloatField()
     
     Properties = EmbeddedDocumentField(GraphicProperties)
     
@@ -357,6 +312,51 @@ class ImportedPage(BaseGraphic):
     """
     ImportedPageCrop = StringField()
     PageNumber = IntField()
+    
+
+class Link(Element):
+    Self = StringField(required=True)
+    AssetURL = StringField()
+    AssetID = StringField()
+    LinkResourceURI = StringField(required=True)
+    LinkResourceFormat = StringField()
+    StoredState = StringField()
+    LinkClassID = IntField()
+    LinkClientID = IntField()
+    LinkResourceModified = BooleanField()
+    LinkObjectModified = BooleanField()
+    ShowInUI = BooleanField()
+    CanEmbed = BooleanField()
+    CanUnembed = BooleanField()
+    CanPackage = BooleanField()
+    ImportPolicy = StringField()
+    ExportPolicy = StringField()
+    LinkImportStamp = StringField()
+    LinkImportModificationTime = StringField() # TODO: dateTime
+    LinkImportTime = StringField() # TODO: datetime
+    LinkExportTime = StringField() # TODO: datetime
+    LinkResourceSize = StringField()
+    
+    Properties = EmbeddedDocumentField(Properties)
+    
+
+class ClippingPathSettings(Element):
+    ClippingType = StringField()
+    InvertPath = BooleanField()
+    IncludeInsideEdges = BooleanField()
+    RestrictToFrame = BooleanField()
+    UseHighResolutionImage = BooleanField()
+    Threshold = IntField()
+    Tolerance = FloatField()
+    InsetFrame = FloatField()
+    AppliedPathName = StringField()
+    Index = IntField()
+    
+
+class ImageIOPreference(Element):
+    ApplyPhotoshopClippingPath = BooleanField()
+    AllowAutoEmbedding = BooleanField()
+    AlphaChannelName = StringField()
     
 
 class NavigationPoint(Element):
@@ -676,8 +676,18 @@ class Guides(Element):
     Properties = EmbeddedDocumentField(GuidesProperties)
     
 
+# TODO: make this more general
+class RasterVectorBalanceField(FloatField):
+    def to_python(self, value):
+        try:
+            return float(value.text)
+        except ValueError:
+            return value.text
+            
+    
+
 class FlattenerPreferenceProperties(Element):
-    RasterVectorBalance = StringField()
+    RasterVectorBalance = RasterVectorBalanceField()
     
 
 class FlattenerPreference(Element):
@@ -704,5 +714,8 @@ class FlattenerPreference(Element):
     Properties = EmbeddedDocumentField(FlattenerPreferenceProperties)
     
 
+class InCopyExportOption(Element):
+    IncludeGraphicProxies = BooleanField()
+    IncludeAllResources = BooleanField()
 
 

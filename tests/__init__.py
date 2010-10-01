@@ -16,3 +16,8 @@ class FreshersTest(unittest.TestCase):
                 v,
                 '%s != %s (for key %s)' % (attr, v, k)
             )
+    
+    def assertElement(self, element, name, **kwargs):
+        self.assertEqual(element.__class__.__name__, name)
+        self.assertProps(element, **kwargs)
+    
