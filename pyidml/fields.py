@@ -12,7 +12,6 @@ class StringField(mongoengine.StringField):
             value = value.text
         return super(StringField, self).to_python(value)
     
-    
 
 class BooleanField(mongoengine.BooleanField):
     def to_python(self, value):

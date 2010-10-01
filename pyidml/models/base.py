@@ -1,15 +1,18 @@
 import mongoengine
 from pyidml.fields import *
-from pyidml.utils import memoized
 import sys
 
 class XMLSerializableMixin(object):
     @classmethod
     def from_xml(cls, e):
+        """
+        Returns an instance of this class for the given XML element.
+        """
         data = {}
         subclass_tags = Element._get_subclass_tags()
         
         for attr, value in e.items():
+            # TODO: A KeyError may want to be supressed here for production
             try:
                 data[attr] = cls._fields[attr].to_python(value)
             except:

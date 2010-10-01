@@ -183,7 +183,7 @@ class Oval(PageItem):
     
 
 class GraphicLine(PageItem):
-    pass
+    LockState = StringField()
     
 
 class Polygon(PageItem):

@@ -592,8 +592,8 @@ class WatermarkPreference(Element):
     WatermarkOpacity = IntField()
     WatermarkRotation = IntField()
     WatermarkHorizontalPosition = StringField()
-    WatermarkHorizontalPosition = FloatField()
+    WatermarkHorizontalOffset = FloatField()
     WatermarkVerticalPosition = StringField()
-    WatermarkVerticalOffset = StringField()
+    WatermarkVerticalOffset = FloatField()
     
 

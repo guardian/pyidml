@@ -33,6 +33,9 @@ def normalize(element, files):
     
 
 def parse(fh):
+    """
+    Returns a document object for a given IDML file handle.
+    """
     files = load_files(fh)
     designmap = normalize(files['designmap.xml'], files)
     return Document.from_xml(designmap)
