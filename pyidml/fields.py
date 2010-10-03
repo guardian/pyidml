@@ -1,10 +1,9 @@
 import mongoengine
+from mongoengine.base import BaseDocument
 from xml.etree import ElementTree
 
 IntField = mongoengine.IntField
 FloatField = mongoengine.FloatField
-ListField = mongoengine.ListField
-
 
 class StringField(mongoengine.StringField):
     def to_python(self, value):
@@ -29,6 +28,27 @@ class BooleanField(mongoengine.BooleanField):
             return 'false'
     
 
+class ListField(mongoengine.ListField):
+    """
+    A ListField which passes through _parent references to 
+    EmbeddedDocumentFields
+    """
+    def _set_parent(self, instance, value):
+        if isinstance(self.field, EmbeddedDocumentField) and value is not None:
+            for doc in value:
+                if isinstance(doc, BaseDocument):
+                    doc._parent = instance
+        
+    def __set__(self, instance, value):
+        self._set_parent(instance, value)
+        super(ListField, self).__set__(instance, value)
+    
+    def __get__(self, instance, owner):
+        value = super(ListField, self).__get__(instance, owner)
+        self._set_parent(instance, value)
+        return value
+    
+
 class SpaceSeparatedListField(mongoengine.ListField):
     def to_python(self, value):
         if isinstance(value, basestring):
@@ -36,14 +56,33 @@ class SpaceSeparatedListField(mongoengine.ListField):
         return super(SpaceSeparatedListField, self).to_python(value)
     
     def to_xml(self, value):
-        return ' '.join(unicode(v) for v in super(SpaceSeparatedListField, self).to_xml(value))
+        return ' '.join(
+            unicode(v) for v in 
+            super(SpaceSeparatedListField, self).to_xml(value)
+        )
     
 
 class EmbeddedDocumentField(mongoengine.EmbeddedDocumentField):
+    """
+    An EmbeddedDocumentField that can deserialize from XML elements and gives
+    values a _parent attribute
+    """
     def to_python(self, value):
         if isinstance(value, ElementTree._ElementInterface):
             return self.document.from_xml(value)
         return super(EmbeddedDocumentField, self).to_python(value)
+    
+    def __set__(self, instance, value):
+        if isinstance(value, BaseDocument):
+            value._parent = instance
+        super(EmbeddedDocumentField, self).__set__(instance, value)
+    
+    def __get__(self, instance, owner):
+        value = super(EmbeddedDocumentField, self).__get__(instance, owner)
+        if isinstance(value, BaseDocument):
+            value._parent = instance
+        return value
+    
 
 class KeyValuePairField(mongoengine.DictField):
     def to_python(self, value):
