@@ -44,6 +44,13 @@ class DocumentTest(FreshersTest):
         self.assertEqual(doc.children[2].__class__.__name__, 'Graphic')
         self.assertFalse(hasattr(doc.children[2], 'src'))
     
+    def test_get_document(self):
+        self.assertEqual(doc.get_document(), doc)
+        self.assertEqual(
+            doc.get_children('Styles')[0].children[0].get_document(),
+            doc
+        )
+    
     def test_Language(self):
         self.assertElement(doc.children[0], 'Language',
             Self='Language/$ID/English%3a UK',

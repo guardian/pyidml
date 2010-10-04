@@ -15,6 +15,12 @@ class StylesTest(FreshersTest):
             DOMVersion="6.0"
         )
     
+    def test_get_style(self):
+        self.assertEqual(
+            self.styles.get_style('ParagraphStyle/TV first paragraph').Self,
+            self.styles.get_children('RootParagraphStyleGroup')[0].children[2].Self,
+        )
+    
     def test_RootCharacterStyleGroup(self):
         self.assertElement(self.styles.children[0], 'RootCharacterStyleGroup',
             Self="uad9"

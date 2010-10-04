@@ -59,6 +59,15 @@ class ElementMixin(object):
             return []
         return filter(lambda c: c.__class__.__name__ == name, self.children)
     
+    def get_document(self):
+        """
+        Get the root element for the current document.
+        """
+        if self._class_name == 'Document':
+            return self
+        elif getattr(self, '_parent', None) is not None:
+            return self._parent.get_document()
+    
     def transform_coordinates(self, coords):
         if getattr(self, 'ItemTransform', False):
             transformation = numpy.matrix([
