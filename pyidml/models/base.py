@@ -1,4 +1,5 @@
 import mongoengine
+import numpy
 from pyidml.fields import *
 import sys
 
@@ -57,6 +58,22 @@ class ElementMixin(object):
         if not self.children:
             return []
         return filter(lambda c: c.__class__.__name__ == name, self.children)
+    
+    def transform_coordinates(self, coords):
+        if getattr(self, 'ItemTransform', False):
+            transformation = numpy.matrix([
+                [self.ItemTransform[0], self.ItemTransform[1], 0],
+                [self.ItemTransform[2], self.ItemTransform[3], 0],
+                [self.ItemTransform[4], self.ItemTransform[5], 1],
+            ])
+            result = numpy.matrix([coords[0], coords[1], 1]) * transformation
+            return (result[0, 0], result[0, 1])
+        
+        if hasattr(self, '_parent') and self._parent:
+            return self._parent.transform_coordinates(coordinates)
+        else:
+            return coordinates
+        
     
 
 class Element(mongoengine.EmbeddedDocument, XMLSerializableMixin, ElementMixin):
