@@ -40,6 +40,11 @@ class Document(mongoengine.Document, XMLSerializableMixin, ElementMixin):
     
     children = ListField(ElementEmbeddedDocumentField())
     
+    def get_story(self, name):
+        for story in self.get_children('Story'):
+            if story.Self == name:
+                return story
+    
 
 class Language(Element):
     """
