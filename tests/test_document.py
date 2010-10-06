@@ -41,13 +41,13 @@ class DocumentTest(FreshersTest):
         """
         Test idPkg references are imported correctly
         """
-        self.assertEqual(doc.children[2].__class__.__name__, 'Graphic')
-        self.assertFalse(hasattr(doc.children[2], 'src'))
+        self.assertElement(doc.Graphic, 'Graphic')
+        self.assertFalse(hasattr(doc.Graphic, 'src'))
     
     def test_get_document(self):
         self.assertEqual(doc.get_document(), doc)
         self.assertEqual(
-            doc.get_children('Styles')[0].children[0].get_document(),
+            doc.Styles.children[0].get_document(),
             doc
         )
     
@@ -78,13 +78,14 @@ class DocumentTest(FreshersTest):
         )
     
     def test_MojikumiTable(self):
-        self.assertElement(doc.children[4], 'MojikumiTable',
+        self.assertElement(doc.children[2], 'MojikumiTable',
             Self="MojikumiTable/$ID/kMojikumiDefaultName15",
             Name="$ID/kMojikumiDefaultName15"
         )
     
     def test_NumberingList(self):
-        self.assertElement(doc.children[7], 'NumberingList',
+        element = doc.get_children('NumberingList')[0]
+        self.assertElement(element, 'NumberingList',
             Self="NumberingList/$ID/[Default]",
             Name="$ID/[Default]",
             ContinueNumbersAcrossStories=False,
@@ -92,7 +93,7 @@ class DocumentTest(FreshersTest):
         )
     
     def test_NamedGrid(self):
-        element = doc.children[8]
+        element = doc.get_children('NamedGrid')[0]
         self.assertElement(element, 'NamedGrid',
             Self="NamedGrid/$ID/[Page Grid]",
             Name="$ID/[Page Grid]"
@@ -115,18 +116,19 @@ class DocumentTest(FreshersTest):
         )
     
     def test_MetadataPacketPreference(self):
-        element = doc.children[10]
+        element = doc.get_children('MetadataPacketPreference')[0]
         self.assertElement(element, 'MetadataPacketPreference')
         self.assertTrue(element.Properties.Contents.startswith('<?xpacket'))
         
     def test_ConditionalTextPreference(self):
-        self.assertElement(doc.children[11], 'ConditionalTextPreference',
+        element = doc.get_children('ConditionalTextPreference')[0]
+        self.assertElement(element, 'ConditionalTextPreference',
             ShowConditionIndicators="ShowIndicators",
             ActiveConditionSet="n"
         )
     
     def test_Layer(self):
-        element = doc.children[13]
+        element = doc.get_children('Layer')[0]
         self.assertElement(element, 'Layer',
             Self="ua4",
             Name="Layer 1",

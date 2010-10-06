@@ -1,6 +1,12 @@
 import mongoengine
 from pyidml.fields import *
 from pyidml.models import Element, XMLSerializableMixin, ElementMixin, Properties, ElementEmbeddedDocumentField
+from pyidml.models.backing_story import BackingStory
+from pyidml.models.fonts import Fonts
+from pyidml.models.graphic import Graphic
+from pyidml.models.preferences import Preferences
+from pyidml.models.styles import Styles
+from pyidml.models.tags import Tags
 
 class Document(mongoengine.Document, XMLSerializableMixin, ElementMixin):
     """
@@ -36,7 +42,12 @@ class Document(mongoengine.Document, XMLSerializableMixin, ElementMixin):
     CMYKPolicy = StringField()
     AccurateLABSpots = BooleanField()
     
+    Fonts = EmbeddedDocumentField(Fonts)
+    Graphic = EmbeddedDocumentField(Graphic)
+    Preferences = EmbeddedDocumentField(Preferences)
     Properties = EmbeddedDocumentField(Properties)
+    Styles = EmbeddedDocumentField(Styles)
+    Tags = EmbeddedDocumentField(Tags)
     
     children = ListField(ElementEmbeddedDocumentField())
     

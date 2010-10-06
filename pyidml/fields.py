@@ -118,3 +118,12 @@ class RectangleBoundsField(mongoengine.DictField):
             return d
         return super(RectangleBoundsField, self).to_python(value)
 
+# class StyleField(StringField):
+#     def to_python(self, value):
+#         value = super(StyleField, self).to_python(value)
+#         styles = self.owner_document.get_document().get_children('Styles')[0]
+#         return styles.get_style(value)
+#     
+#     def to_mongo(self, value):
+#         return value.Self
+#     

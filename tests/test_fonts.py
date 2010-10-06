@@ -7,7 +7,7 @@ class FontsTest(FreshersTest):
     
     def setUp(self):
         super(FontsTest, self).setUp()
-        self.fonts = doc.children[3]
+        self.fonts = doc.Fonts
     
     def test_Fonts(self):
         self.assertElement(self.fonts, 'Fonts',

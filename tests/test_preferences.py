@@ -8,11 +8,11 @@ class PreferencesTest(FreshersTest):
     
     def setUp(self):
         super(PreferencesTest, self).setUp()
-        self.preferences = doc.get_children('Preferences')[0]
+        self.preferences = doc.Preferences
     
     def test_StoryPreference(self):
         self.assertElement(
-            self.preferences.get_children('StoryPreference')[0], 
+            self.preferences.StoryPreference, 
             'StoryPreference',
             OpticalMarginAlignment=False,
             OpticalMarginSize=12,
@@ -23,7 +23,7 @@ class PreferencesTest(FreshersTest):
     
     def test_DocumentPreference(self):
         self.assertElement(
-            self.preferences.get_children('DocumentPreference')[0], 
+            self.preferences.DocumentPreference, 
             'DocumentPreference',
             PageHeight=1020.472440944882,
             PageWidth=819.2125984251969,

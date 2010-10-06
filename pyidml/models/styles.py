@@ -2,25 +2,6 @@ from pyidml.fields import *
 from pyidml.models import Element, Properties
 from stories import BaseTextElement, TextElementProperties
 
-class Styles(Element):
-    DOMVersion = StringField(required=True)
-    
-    def get_style(self, full_name):
-        """
-        Returns a style given a name in the form ParagraphStyle/Foo, 
-        CharacterStyle/Bar etc
-        
-        (TODO: This should be done magically by a ParagraphStyleField or 
-        something)
-        """
-        style_type, name = full_name.split('/', 1)
-        if style_type in ('ParagraphStyle', 'CharacterStyle', 'ObjectStyle'):
-            for s in self.get_children('Root%sGroup' % style_type)[0].children:
-                if s.Self == full_name:
-                    return s
-        
-    
-
 class ParagraphStyleGroup(Element):
     Self = StringField(required=True)
     Name = StringField()
@@ -219,4 +200,22 @@ class TrapPreset(Element):
     Properties = EmbeddedDocumentField(Properties)
     
 
-
+class Styles(Element):
+    DOMVersion = StringField(required=True)
+    RootCharacterStyleGroup = EmbeddedDocumentField(RootCharacterStyleGroup)
+    RootParagraphStyleGroup = EmbeddedDocumentField(RootParagraphStyleGroup)
+    RootObjectStyleGroup = EmbeddedDocumentField(RootObjectStyleGroup)
+    
+    def get_style(self, full_name):
+        """
+        Returns a style given a name in the form ParagraphStyle/Foo, 
+        CharacterStyle/Bar etc
+        
+        (TODO: This should be done magically by a ParagraphStyleField or 
+        something)
+        """
+        style_type, name = full_name.split('/', 1)
+        if style_type in ('ParagraphStyle', 'CharacterStyle', 'ObjectStyle'):
+            for s in getattr(self, 'Root%sGroup' % style_type).children:
+                if s.Self == full_name:
+                    return s

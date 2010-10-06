@@ -2,16 +2,6 @@ from pyidml.fields import *
 from pyidml.models import Element, Properties
 from spreads import GeometryPathType
 
-class Preferences(Element):
-    """
-    IDML files can contain a number of preferences elements that control both 
-    document preferences and various default values. In an IDML package, 
-    preferences elements are found in the Preferences.xml file in the Resources 
-    folder.
-    """
-    DOMVersion = StringField(required=True)
-    
-    
 
 class DataMerge(Element):
     """
@@ -161,5 +151,27 @@ class FrameFittingOption(Element):
 
 # TODO: ButtonPreference, TinDocumentDDataObject, LayoutGridDataInformation, StoryGridDataInformation, CjkGridPreference, MojikumiUiPreference, ChapterNumberPreference, 
 
+class Preferences(Element):
+    """
+    IDML files can contain a number of preferences elements that control both 
+    document preferences and various default values. In an IDML package, 
+    preferences elements are found in the Preferences.xml file in the Resources 
+    folder.
+    """
+    DOMVersion = StringField(required=True)
+    DataMerge = EmbeddedDocumentField(DataMerge)
+    DataMergeOption = EmbeddedDocumentField(DataMergeOption)
+    StoryPreference = EmbeddedDocumentField(StoryPreference)
+    TextWrapPreferenceProperties = EmbeddedDocumentField(
+        TextWrapPreferenceProperties
+    )
+    TextWrapPreference = EmbeddedDocumentField(TextWrapPreference)
+    ContourOption = EmbeddedDocumentField(ContourOption)
+    DocumentPreferenceProperties = EmbeddedDocumentField(
+        DocumentPreferenceProperties
+    )
+    DocumentPreference = EmbeddedDocumentField(DocumentPreference)
+    MarginPreference = EmbeddedDocumentField(MarginPreference)
+    FrameFittingOption = EmbeddedDocumentField(FrameFittingOption)
 
 

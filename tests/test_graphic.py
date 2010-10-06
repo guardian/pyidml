@@ -7,7 +7,7 @@ class GraphicTest(FreshersTest):
     
     def setUp(self):
         super(GraphicTest, self).setUp()
-        self.graphic = doc.children[2]
+        self.graphic = doc.Graphic
     
     def test_Graphic(self):
         self.assertElement(self.graphic, 'Graphic',

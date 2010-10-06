@@ -8,7 +8,7 @@ class StylesTest(FreshersTest):
     
     def setUp(self):
         super(StylesTest, self).setUp()
-        self.styles = doc.get_children('Styles')[0]
+        self.styles = doc.Styles
     
     def test_Styles(self):
         self.assertElement(self.styles, 'Styles',
@@ -18,17 +18,19 @@ class StylesTest(FreshersTest):
     def test_get_style(self):
         self.assertEqual(
             self.styles.get_style('ParagraphStyle/TV first paragraph').Self,
-            self.styles.get_children('RootParagraphStyleGroup')[0].children[2].Self,
+            self.styles.RootParagraphStyleGroup.children[2].Self,
         )
     
     def test_RootCharacterStyleGroup(self):
-        self.assertElement(self.styles.children[0], 'RootCharacterStyleGroup',
+        self.assertElement(
+            self.styles.RootCharacterStyleGroup, 
+            'RootCharacterStyleGroup',
             Self="uad9"
         )
-        self.assertEqual(len(self.styles.children[0].children), 15)
+        self.assertEqual(len(self.styles.RootCharacterStyleGroup.children), 15)
     
     def test_CharacterStyle(self):
-        group = self.styles.children[0]
+        group = self.styles.RootCharacterStyleGroup
         self.assertElement(group.children[0], 'CharacterStyle',
             Self="CharacterStyle/$ID/[No character style]",
             Imported=False,
@@ -59,13 +61,15 @@ class StylesTest(FreshersTest):
         )
     
     def test_RootParagraphStyleGroup(self):
-        self.assertElement(self.styles.children[1], 'RootParagraphStyleGroup',
+        self.assertElement(
+            self.styles.RootParagraphStyleGroup, 
+            'RootParagraphStyleGroup',
             Self="uad7"
         )
-        self.assertEqual(len(self.styles.children[1].children), 29)
+        self.assertEqual(len(self.styles.RootParagraphStyleGroup.children), 29)
     
     def test_ParagraphStyle(self):
-        group = self.styles.children[1]
+        group = self.styles.RootParagraphStyleGroup
         self.assertElement(group.children[0], 'ParagraphStyle',
             Self="ParagraphStyle/$ID/[No paragraph style]",
             Name="$ID/[No paragraph style]",
@@ -336,7 +340,7 @@ class StylesTest(FreshersTest):
         )
     
     def test_RootObjectStyleGroup(self):
-        element = self.styles.get_children('RootObjectStyleGroup')[0]
+        element = self.styles.RootObjectStyleGroup
         self.assertElement(
             element, 
             'RootObjectStyleGroup',
@@ -345,7 +349,7 @@ class StylesTest(FreshersTest):
         self.assertEqual(len(element.children), 22)
         
     def test_ObjectStyle(self):
-        element = self.styles.get_children('RootObjectStyleGroup')[0].children[0]
+        element = self.styles.RootObjectStyleGroup.children[0]
         self.assertElement(element, 'ObjectStyle',
             Self="ObjectStyle/$ID/[None]",
             Name="$ID/[None]",
