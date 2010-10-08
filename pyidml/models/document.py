@@ -5,6 +5,7 @@ from pyidml.models.backing_story import BackingStory
 from pyidml.models.fonts import Fonts
 from pyidml.models.graphic import Graphic
 from pyidml.models.preferences import Preferences
+from pyidml.models.spreads import MetadataPacketPreference
 from pyidml.models.styles import Styles
 from pyidml.models.tags import Tags
 
@@ -417,34 +418,6 @@ class NamedGrid(Element):
     Name = StringField(required=True)
     
     Properties = EmbeddedDocumentField(Properties)
-    
-
-class GridDataInformationProperties(Properties):
-    AppliedFont = StringField()
-    
-
-class GridDataInformation(Element):
-    FontStyle = StringField()
-    PointSize = FloatField()
-    CharacterAki = FloatField()
-    LineAki = FloatField()
-    HorizontalScale = FloatField()
-    VerticalScale = FloatField()
-    LineAlignment = StringField()
-    GridAlignment = StringField()
-    CharacterAlignment = StringField()
-    GridView = StringField()
-    CharacterCountLocation = StringField()
-    CharacterCountSize = FloatField()
-    
-    Properties = EmbeddedDocumentField(GridDataInformationProperties)
-    
-
-class MetadataPacketPreferenceProperties(Element):
-    Contents = StringField()
-
-class MetadataPacketPreference(Element):
-    Properties = EmbeddedDocumentField(MetadataPacketPreferenceProperties)
     
 
 class DocumentUserProperties(Element):

@@ -13,8 +13,7 @@ class SpreadTest(FreshersTest):
         self.assertEqual(len(doc.get_children('Spread')), 5)
     
     def test_Spread(self):
-        self.assertEqual(self.spread.__class__.__name__, 'Spread')
-        self.assertProps(self.spread,
+        self.assertElement(self.spread, 'Spread',
             Self="u1261",
             FlattenerOverride="Default",
             ShowMasterItems=True,
@@ -28,9 +27,8 @@ class SpreadTest(FreshersTest):
         )
     
     def test_FlattenerPreference(self):
-        element = self.spread.children[0]
-        self.assertEqual(element.__class__.__name__, 'FlattenerPreference')
-        self.assertProps(element,
+        element = self.spread.FlattenerPreference
+        self.assertElement(element, 'FlattenerPreference',
             LineArtAndTextResolution=300,
             GradientAndMeshResolution=150,
             ClipComplexRegions=False,
@@ -41,7 +39,7 @@ class SpreadTest(FreshersTest):
     
     def test_Page(self):
         self.assertEqual(len(self.spread.get_children('Page')), 1)
-        element = self.spread.children[1]
+        element = self.spread.get_children('Page')[0]
         self.assertElement(element, 'Page',
             Self="u1266",
             Name="1",
@@ -54,7 +52,7 @@ class SpreadTest(FreshersTest):
         )
         #self.assertEqual(element.Properties.Descriptor, '') # TODO
         
-        self.assertElement(element.children[0], 'MarginPreference',
+        self.assertElement(element.MarginPreference, 'MarginPreference',
             ColumnCount=5,
             ColumnGutter=11.999055118110235,
             Top=31.181102362204726,
@@ -65,7 +63,7 @@ class SpreadTest(FreshersTest):
             ColumnsPositions=[0, 140.63697637795275, 152.63603149606297, 293.2730078740157, 305.27206299212594, 445.9090393700787, 457.9080944881889, 598.5450708661417, 610.544125984252, 751.1811023622047]
         )
         
-        self.assertElement(element.children[1], 'GridDataInformation',
+        self.assertElement(element.GridDataInformation, 'GridDataInformation',
             FontStyle="Regular",
             PointSize=12,
             CharacterAki=0,
@@ -76,12 +74,15 @@ class SpreadTest(FreshersTest):
             GridAlignment="AlignEmCenter",
             CharacterAlignment="AlignEmCenter"
         )
-        self.assertEqual(element.children[1].Properties.AppliedFont, 'Times New Roman')
+        self.assertEqual(
+            element.GridDataInformation.Properties.AppliedFont,
+            'Times New Roman'
+        )
     
     def test_TextFrame(self):
         self.assertEqual(len(self.spread.get_children('TextFrame')), 16)
         
-        element = self.spread.children[2]
+        element = self.spread.get_children('TextFrame')[0]
         self.assertElement(element, 'TextFrame',
             Self="u14d2",
             ParentStory="u14d5",
@@ -115,36 +116,46 @@ class SpreadTest(FreshersTest):
         )
         
         # Check TransparencySetting
-        self.assertElement(element.children[0], 'TransparencySetting')
-        self.assertElement(element.children[0].children[0], 
+        self.assertElement(element.TransparencySetting, 'TransparencySetting')
+        self.assertElement(element.TransparencySetting.DropShadowSetting, 
             'DropShadowSetting',
             KnockedOut=True
         )
         
         # Check TextFramePreference
-        self.assertElement(element.children[1], 
+        self.assertElement(element.TextFramePreference, 
             'TextFramePreference',
             TextColumnCount=4,
             TextColumnFixedWidth=140.63626771653543
         )
         
         # Check TextWrapPreference
-        self.assertElement(element.children[2], 
+        self.assertElement(element.TextWrapPreference, 
             'TextWrapPreference',
             Inverse=False,
             ApplyToMasterPageOnly=False,
             TextWrapSide="BothSides",
             TextWrapMode="None"
         )
-        self.assertEqual(element.children[2].Properties.TextWrapOffset, {
+        self.assertEqual(element.TextWrapPreference.Properties.TextWrapOffset, {
             'Top': 0,
             'Left': 0,
             'Bottom': 0,
             'Right': 0
         })
-        
+    
+    def test_InsetSpacing(self):
+        element = filter(
+            lambda e: getattr(e, 'Self', None) == 'u1297',
+            self.spread.children
+        )[0]
+        self.assertEqual(
+            element.TextFramePreference.Properties.InsetSpacing,
+            [9.921259842519685, 5.669291338582678, 0, 5.669291338582678]
+        )
+    
     def test_Rectangle(self):
-        element = self.spread.children[3]
+        element = self.spread.get_children('Rectangle')[0]
         self.assertElement(element, 'Rectangle',
             Self="u126f",
             StoryTitle="$ID/",
@@ -179,14 +190,14 @@ class SpreadTest(FreshersTest):
         )
         
         # Check InCopyExportOption
-        self.assertElement(element.children[2],
+        self.assertElement(element.InCopyExportOption,
             'InCopyExportOption',
             IncludeGraphicProxies=True,
             IncludeAllResources=False
         )
         
         # Check FrameFittingOption
-        self.assertElement(element.children[3],
+        self.assertElement(element.FrameFittingOption,
             'FrameFittingOption',
             LeftCrop=0,
             TopCrop=0,
@@ -197,7 +208,7 @@ class SpreadTest(FreshersTest):
         )
     
     def test_Image(self):
-        element = self.spread.children[4].get_children('Image')[0]
+        element = self.spread.get_children('Rectangle')[1].get_children('Image')[0]
         self.assertElement(element, 'Image',
             Self="u213b",
             Space="$ID/#Links_RGB",
@@ -221,20 +232,19 @@ class SpreadTest(FreshersTest):
         )
         
         # Check TextWrapPreference
-        self.assertElement(element.children[0], 
-            'TextWrapPreference',
+        self.assertElement(element.TextWrapPreference, 'TextWrapPreference',
             Inverse=False,
             ApplyToMasterPageOnly=False,
             TextWrapSide="BothSides",
             TextWrapMode="None"
         )
-        self.assertEqual(element.children[0].Properties.TextWrapOffset, {
+        self.assertEqual(element.TextWrapPreference.Properties.TextWrapOffset, {
             'Top': 0,
             'Left': 0,
             'Bottom': 0,
             'Right': 0
         })
-        self.assertElement(element.children[0].children[0], 
+        self.assertElement(element.TextWrapPreference.ContourOption, 
             'ContourOption',
             ContourType="SameAsClipping",
             IncludeInsideEdges=False,
@@ -242,13 +252,18 @@ class SpreadTest(FreshersTest):
         )
         
         # Check MetadataPacketPreference
-        self.assertElement(element.children[1], 'MetadataPacketPreference')
-        self.assertTrue(element.children[1].Properties.Contents.startswith(
-            '<?xpacket'
-        ))
+        self.assertElement(
+            element.MetadataPacketPreference,
+            'MetadataPacketPreference'
+        )
+        self.assertTrue(
+            element.MetadataPacketPreference.Properties.Contents.startswith(
+                '<?xpacket'
+            )
+        )
         
         # Check Link
-        self.assertElement(element.children[2], 'Link',
+        self.assertElement(element.get_children('Link')[0], 'Link',
             Self="u213f",
             AssetURL="$ID/",
             AssetID="$ID/",
@@ -271,7 +286,8 @@ class SpreadTest(FreshersTest):
         )
         
         # Check ClippingPathSettings
-        self.assertElement(element.children[3], 'ClippingPathSettings',
+        self.assertElement(element.ClippingPathSettings, 
+            'ClippingPathSettings',
             ClippingType="None",
             InvertPath=False,
             IncludeInsideEdges=False,
@@ -285,7 +301,8 @@ class SpreadTest(FreshersTest):
         )
         
         # Check ImageIOPreference
-        self.assertElement(element.children[4], 'ImageIOPreference',
+        self.assertElement(element.ImageIOPreference, 
+            'ImageIOPreference',
             ApplyPhotoshopClippingPath=True,
             AllowAutoEmbedding=True,
             AlphaChannelName="$ID/"
@@ -323,18 +340,18 @@ class SpreadTest(FreshersTest):
             RightDirection=[462.4995, 364.4503905769409]
         )
         
-        self.assertElement(element.children[0].children[0],
+        self.assertElement(element.TransparencySetting.DropShadowSetting,
             'DropShadowSetting',
             KnockedOut=True
         )
         
-        self.assertElement(element.children[1], 'TextWrapPreference', 
+        self.assertElement(element.TextWrapPreference, 'TextWrapPreference', 
             Inverse=False,
             ApplyToMasterPageOnly=True,
             TextWrapSide="BothSides",
             TextWrapMode="None"
         )
-        self.assertEqual(element.children[1].Properties.TextWrapOffset, {
+        self.assertEqual(element.TextWrapPreference.Properties.TextWrapOffset, {
             'Top': 0,
             'Left': 0,
             'Bottom': 0,
@@ -361,39 +378,45 @@ class SpreadTest(FreshersTest):
         })
         
         # Check TextWrapPreference
-        self.assertElement(element.children[0], 'TextWrapPreference',        
+        self.assertElement(element.TextWrapPreference, 'TextWrapPreference',        
             Inverse=False,
             ApplyToMasterPageOnly=False,
             TextWrapSide="BothSides",
             TextWrapMode="None"
         )
-        self.assertEqual(element.children[0].Properties.TextWrapOffset, {
+        self.assertEqual(element.TextWrapPreference.Properties.TextWrapOffset, {
             'Top': 0,
             'Left': 0,
             'Bottom': 0,
             'Right': 0
         })
-        self.assertElement(element.children[0].children[0], 'ContourOption',
+        self.assertElement(element.TextWrapPreference.ContourOption, 
+            'ContourOption',
             ContourType="SameAsClipping",
             IncludeInsideEdges=False,
             ContourPathName="$ID/"
         )
         
         # Check PDFAttribute
-        self.assertElement(element.children[1], 'PDFAttribute',
+        self.assertElement(element.PDFAttribute, 'PDFAttribute',
             PageNumber=1,
             PDFCrop="CropContent",
             TransparentBackground=True
         )
         
         # Check MetadataPacketPreference
-        self.assertElement(element.children[2], 'MetadataPacketPreference')
+        self.assertElement(
+            element.MetadataPacketPreference,
+            'MetadataPacketPreference'
+        )
         self.assertTrue(
-            element.children[2].Properties.Contents.startswith('<?xpacket')
+            element.MetadataPacketPreference.Properties.Contents.startswith(
+                '<?xpacket'
+            )
         )
         
         # Check Link
-        self.assertElement(element.children[3], 'Link',
+        self.assertElement(element.get_children('Link')[0], 'Link',
             Self="u1305",
             AssetURL="$ID/",
             AssetID="$ID/",
@@ -416,7 +439,7 @@ class SpreadTest(FreshersTest):
         )
         
         # Check ClippingPathSettings
-        self.assertElement(element.children[4], 'ClippingPathSettings',
+        self.assertElement(element.ClippingPathSettings, 'ClippingPathSettings',
             ClippingType="None",
             InvertPath=False,
             IncludeInsideEdges=False,
@@ -430,7 +453,7 @@ class SpreadTest(FreshersTest):
         )
         
         # Check ClippingPathSettings
-        self.assertElement(element.children[5], 'GraphicLayerOption',
+        self.assertElement(element.GraphicLayerOption, 'GraphicLayerOption',
             UpdateLinkOption="ApplicationSettings"
         )
     

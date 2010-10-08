@@ -1,6 +1,6 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
-from spreads import GeometryPathType
+from spreads import TextWrapPreference, FrameFittingOption, ContourOption
 
 
 class DataMerge(Element):
@@ -46,30 +46,6 @@ class StoryPreference(Element):
 # TextPreference, TextDefault, DictionaryPreference, AnchoredObjectDefault, AnchoredObjectSetting, BaselineFrameGridOption, FootnoteOption, 
 
 
-class TextWrapPreferenceProperties(Properties):
-    TextWrapOffset = RectangleBoundsField()
-    PathGeometry = ListField(EmbeddedDocumentField(GeometryPathType))
-
-
-class TextWrapPreference(Element):
-    """
-    The <TextWrapPreference> element controls the default text wrap applied to 
-    page items in an InDesign document. Values that you specify here will apply 
-    to all text wraps that do not explicitly define these attributes and 
-    elements.
-    """
-    Inverse = BooleanField()
-    ApplyToMasterPageOnly = BooleanField()
-    TextWrapSide = StringField()
-    TextWrapMode = StringField()
-    
-    Properties = EmbeddedDocumentField(TextWrapPreferenceProperties)
-    
-
-class ContourOption(Element):
-    ContourType = StringField()
-    IncludeInsideEdges = BooleanField()
-    ContourPathName = StringField()
     
 
 class DocumentPreferenceProperties(Properties):
@@ -133,20 +109,6 @@ class MarginPreference(Element):
     
 
 # TODO: PasteboardPreference, ViewPreference, PrintPreference, PrintBookletOption, PrintBookletPrintPreference, IndexOptions, IndexHeaderSetting, PageItemDefault, 
-
-class FrameFittingOption(Element):
-    """
-    The <FrameFittingOption> element controls the default fitting behavior for 
-    all page items in a document. Values that you specify here will apply to all 
-    page items that do not explicitly define these attributes and elements.
-    """
-    AutoFit = BooleanField()
-    LeftCrop = BooleanField()
-    TopCrop = BooleanField()
-    RightCrop = BooleanField()
-    BottomCrop = BooleanField()
-    FittingOnEmptyFrame = StringField()
-    FittingAlignment = StringField()
     
 
 # TODO: ButtonPreference, TinDocumentDDataObject, LayoutGridDataInformation, StoryGridDataInformation, CjkGridPreference, MojikumiUiPreference, ChapterNumberPreference, 
@@ -162,14 +124,8 @@ class Preferences(Element):
     DataMerge = EmbeddedDocumentField(DataMerge)
     DataMergeOption = EmbeddedDocumentField(DataMergeOption)
     StoryPreference = EmbeddedDocumentField(StoryPreference)
-    TextWrapPreferenceProperties = EmbeddedDocumentField(
-        TextWrapPreferenceProperties
-    )
     TextWrapPreference = EmbeddedDocumentField(TextWrapPreference)
     ContourOption = EmbeddedDocumentField(ContourOption)
-    DocumentPreferenceProperties = EmbeddedDocumentField(
-        DocumentPreferenceProperties
-    )
     DocumentPreference = EmbeddedDocumentField(DocumentPreference)
     MarginPreference = EmbeddedDocumentField(MarginPreference)
     FrameFittingOption = EmbeddedDocumentField(FrameFittingOption)

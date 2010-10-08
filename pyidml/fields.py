@@ -3,13 +3,19 @@ from mongoengine.base import BaseDocument
 from xml.etree import ElementTree
 
 IntField = mongoengine.IntField
-FloatField = mongoengine.FloatField
 
 class StringField(mongoengine.StringField):
     def to_python(self, value):
         if isinstance(value, ElementTree._ElementInterface):
             value = value.text
         return super(StringField, self).to_python(value)
+    
+
+class FloatField(mongoengine.FloatField):
+    def to_python(self, value):
+        if isinstance(value, ElementTree._ElementInterface):
+            value = value.text
+        return super(FloatField, self).to_python(value)
     
 
 class BooleanField(mongoengine.BooleanField):
@@ -49,7 +55,7 @@ class ListField(mongoengine.ListField):
         return value
     
 
-class SpaceSeparatedListField(mongoengine.ListField):
+class SpaceSeparatedListField(ListField):
     def to_python(self, value):
         if isinstance(value, basestring):
             value = value.split()
