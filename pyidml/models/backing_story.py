@@ -32,11 +32,13 @@ class XMLElement(Element):
     
 
 class XMLAttribute(Element):
+    Self = StringField(required=True)
     Name = StringField(required=True)
     Value = StringField(required=True)
     
 
 class XMLInstruction(Element):
+    Self = StringField(required=True)
     StoryOffset = StringField()
     Target = StringField(required=True)
     Data = StringField()
