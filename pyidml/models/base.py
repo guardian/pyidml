@@ -55,10 +55,23 @@ class ElementEmbeddedDocumentField(EmbeddedDocumentField):
 
 class ElementMixin(object):
     def get_children(self, name):
+        """
+        Returns a list of children with of a given element name.
+        """
         if not self.children:
             return []
         return filter(lambda c: c.__class__.__name__ == name, self.children)
-    
+   
+    def get_element(self, name):
+        """
+        Returns the child with the given element ID.
+        """
+        if not self.children:
+            return None
+        for child in self.children:
+            if getattr(child, 'Self', None) == name:
+                return child
+
     def get_document(self):
         """
         Get the root element for the current document.

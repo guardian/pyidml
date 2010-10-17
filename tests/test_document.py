@@ -50,6 +50,12 @@ class DocumentTest(FreshersTest):
             doc.Styles.children[0].get_document(),
             doc
         )
+
+    def test_get_element(self):
+        self.assertEqual(
+            doc.get_element('Language/$ID/English%3a UK').Self,
+            doc.get_children('Language')[0].Self,
+        )
     
     def test_Language(self):
         self.assertElement(doc.children[0], 'Language',
