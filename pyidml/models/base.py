@@ -81,20 +81,32 @@ class ElementMixin(object):
         elif getattr(self, '_parent', None) is not None:
             return self._parent.get_document()
     
-    def transform_coordinates(self, coords):
-        if getattr(self, 'ItemTransform', False):
+    def get_spread_transform(self):
+        """
+        Returns the transform matrix for this element relative to the spread
+        """
+        if hasattr(self, 'ItemTransform'):
             transformation = numpy.matrix([
                 [self.ItemTransform[0], self.ItemTransform[1], 0],
                 [self.ItemTransform[2], self.ItemTransform[3], 0],
                 [self.ItemTransform[4], self.ItemTransform[5], 1],
             ])
-            result = numpy.matrix([coords[0], coords[1], 1]) * transformation
-            return (result[0, 0], result[0, 1])
-        
-        if hasattr(self, '_parent') and self._parent:
-            return self._parent.transform_coordinates(coordinates)
         else:
-            return coordinates
+            transformation = numpy.identity(3)
+        if hasattr(self, '_parent') and self._parent:
+            return transformation * self._parent.get_spread_transform()
+        else:
+            return transformation
+
+
+    def transform_coordinates(self, coords):
+        """
+        Returns coordinates relative to the spread given coordinates relative to 
+        this element.
+        """
+        coords_matrix = numpy.matrix([coords[0], coords[1], 1])
+        result = coords_matrix * self.get_spread_transform()
+        return (result[0, 0], result[0, 1])
         
     
 
