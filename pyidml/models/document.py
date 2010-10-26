@@ -175,7 +175,7 @@ class MatchCharacterStylePreference(BaseTextVariable):
     
 
 class MatchParagraphStylePreference(BaseTextVariable):
-    AppliedCharacterStyle = StringField()
+    AppliedParagraphStyle = StringField()
     ChangeCase = StringField()
     DeleteEndPunctuation = BooleanField()
     SearchStrategy = StringField()
