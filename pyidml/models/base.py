@@ -88,6 +88,7 @@ class ElementMixin(object):
         """
         if self.__class__.__name__ == name:
             return numpy.identity(3)
+        
         if hasattr(self, 'ItemTransform'):
             transformation = numpy.matrix([
                 [self.ItemTransform[0], self.ItemTransform[1], 0],
@@ -101,17 +102,6 @@ class ElementMixin(object):
         else:
             return transformation
 
-
-    def transform_coordinates(self, coords):
-        """
-        Returns coordinates relative to the spread given coordinates relative to 
-        this element.
-        """
-        coords_matrix = numpy.matrix([coords[0], coords[1], 1])
-        result = coords_matrix * self.get_spread_transform()
-        return (result[0, 0], result[0, 1])
-        
-    
 
 class Element(mongoengine.EmbeddedDocument, XMLSerializableMixin, ElementMixin):
     children = ListField(ElementEmbeddedDocumentField())
