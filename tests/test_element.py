@@ -19,14 +19,17 @@ class ElementTest(FreshersTest):
             doc.get_children('Language')[0].Self,
         )
 
-    def test_get_transform(self):
+    def test_get_relative_transformation_pasteboard(self):
         """
-        Test get_transform() relative to the pasteboard
+        Test get_relative_transformation() relative to the pasteboard
         """
-        self.assertTrue(numpy.all(doc.get_transform() == numpy.identity(3)))
+        self.assertTrue(numpy.all(
+            doc.get_relative_transformation() == 
+            numpy.identity(3)
+        ))
         spread = doc.get_children('Spread')[1]
         self.assertTrue(numpy.all(
-            spread.get_transform() == 
+            spread.get_relative_transformation() == 
             numpy.matrix([
                 [1, 0, 0],
                 [0, 1, 0],
@@ -35,7 +38,7 @@ class ElementTest(FreshersTest):
         ))
         page_item = spread.get_children('TextFrame')[0]
         self.assertTrue(numpy.all(
-            page_item.get_transform() == 
+            page_item.get_relative_transformation() == 
             numpy.matrix([
                 [1, 0, 0],
                 [0, 1, 0],
@@ -43,23 +46,34 @@ class ElementTest(FreshersTest):
             ])
         ))
 
-    def test_relative_get_transform(self):
+    def test_get_relative_transformation_relative(self):
         """
-        Test get_transform() relative to other elements
+        Test get_relative_transformation() relative to other elements
         """
         page_item = doc.get_children('Spread')[1].get_children('TextFrame')[0]
         self.assertTrue(numpy.all(
-            page_item.get_transform('Spread') ==
+            page_item.get_relative_transformation('Spread') ==
             numpy.matrix([
                 [1, 0, 0],
                 [0, 1, 0],
                 [401.10236220472433, -258.50551181102367, 1],
             ])
         ))
-        print page_item.get_transform('TextFrame')
         self.assertTrue(numpy.all(
-            page_item.get_transform('TextFrame') == numpy.identity(3)
+            page_item.get_relative_transformation('TextFrame') == numpy.identity(3)
         ))
+
+    def test_get_transformation(self):
+        page_item = doc.get_children('Spread')[1].get_children('TextFrame')[0]
+        self.assertTrue(numpy.all(
+            page_item.get_transformation() ==
+            numpy.matrix([
+                [1, 0, 0],
+                [0, 1, 0],
+                [401.10236220472433, -258.50551181102367, 1],
+            ])
+        ))
+
 
 
 

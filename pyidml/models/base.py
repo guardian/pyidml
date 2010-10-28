@@ -81,7 +81,19 @@ class ElementMixin(object):
         elif getattr(self, '_parent', None) is not None:
             return self._parent.get_document()
     
-    def get_transform(self, name=None):
+    def get_transformation(self):
+        """
+        Returns the transformation matrix for this element
+        """
+        if not getattr(self, 'ItemTransform', None):
+            return None
+        return numpy.matrix([
+            [self.ItemTransform[0], self.ItemTransform[1], 0],
+            [self.ItemTransform[2], self.ItemTransform[3], 0],
+            [self.ItemTransform[4], self.ItemTransform[5], 1],
+        ])
+
+    def get_relative_transformation(self, name=None):
         """
         Returns the transform matrix for this element relative to the nearest 
         element of the given name, or by default, the pasteboard.
@@ -89,16 +101,11 @@ class ElementMixin(object):
         if self.__class__.__name__ == name:
             return numpy.identity(3)
         
-        if hasattr(self, 'ItemTransform'):
-            transformation = numpy.matrix([
-                [self.ItemTransform[0], self.ItemTransform[1], 0],
-                [self.ItemTransform[2], self.ItemTransform[3], 0],
-                [self.ItemTransform[4], self.ItemTransform[5], 1],
-            ])
-        else:
+        transformation = self.get_transformation()
+        if transformation is None:
             transformation = numpy.identity(3)
         if hasattr(self, '_parent') and self._parent:
-            return transformation * self._parent.get_transform(name)
+            return transformation * self._parent.get_relative_transformation(name)
         else:
             return transformation
 
