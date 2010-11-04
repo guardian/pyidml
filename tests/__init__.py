@@ -10,7 +10,9 @@ doc = pyidml.parse(os.path.join(
 class FreshersTest(unittest.TestCase):
     def assertProps(self, obj, **kwargs):
         for k, v in kwargs.items():
-            attr = getattr(obj, k)
+            attr = obj
+            for prop in k.split('__'):
+                attr = getattr(attr, prop, None)
             self.assertEqual(
                 attr,
                 v,

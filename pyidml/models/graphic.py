@@ -9,11 +9,6 @@ class Graphic(Element):
     """
     DOMVersion = StringField(required=True)
     
-    def get_color(self, name):
-        for color in self.get_children('Color'):
-            if color.Self == name:
-                return color
-    
 
 class Swatch(Element):
     """
@@ -82,7 +77,7 @@ class GradientStop(Element):
     distance between the two gradient stops).
     """
     Self = StringField(required=True)
-    StopColor = StringField()
+    StopColor = ObjectReferenceField('Graphic')
     Location = FloatField()
     Midpoint = FloatField()
     
@@ -205,3 +200,4 @@ class PastedSmoothShade(Swatch):
     
     Properties = EmbeddedDocumentField(PastedSmoothShadeProperties)
     
+

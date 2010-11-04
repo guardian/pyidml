@@ -14,3 +14,4 @@ class XMLTag(Element):
     
     Properties = EmbeddedDocumentField(XMLTagProperties)
     
+

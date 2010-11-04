@@ -14,14 +14,14 @@ class RootParagraphStyleGroup(ParagraphStyleGroup):
     
 
 class ParagraphStyleProperties(TextElementProperties):
-    BasedOn = StringField()
+    BasedOn = ObjectReferenceField('Styles/RootParagraphStyleGroup')
     
 
 class ParagraphStyle(BaseTextElement):
     Name = StringField()
     Imported = BooleanField()
     KeyboardShortcut = SpaceSeparatedListField(IntField())
-    NextStyle = StringField()
+    NextStyle = ObjectReferenceField('Styles/RootParagraphStyleGroup')
     
     Properties = EmbeddedDocumentField(ParagraphStyleProperties)
     
@@ -40,7 +40,7 @@ class RootCharacterStyleGroup(CharacterStyleGroup):
     
 
 class CharacterStyleProperties(TextElementProperties):
-    BasedOn = StringField()
+    BasedOn = ObjectReferenceField('Styles/RootCharacterStyleGroup')
     PreviewColor = StringField()
     
 
@@ -48,7 +48,7 @@ class CharacterStyle(BaseTextElement):
     Name = StringField()
     Imported = BooleanField()
     KeyboardShortcut = SpaceSeparatedListField(IntField())
-    NextStyle = StringField()
+    NextStyle = ObjectReferenceField('Styles/RootCharacterStyleGroup')
     
     Properties = EmbeddedDocumentField(CharacterStyleProperties)
     
@@ -71,7 +71,7 @@ class RootObjectStyleGroup(ObjectStyleGroup):
     
 
 class ObjectStyleProperties(Properties):
-    BasedOn = StringField()
+    BasedOn = ObjectReferenceField('Styles/RootObjectStyleGroup')
     PreviewColor = StringField()
     
 
@@ -94,7 +94,7 @@ class ObjectStyle(Element):
     """
     Self = StringField(required=True)
     Name = StringField(required=True)
-    AppliedParagraphStyle = StringField()
+    AppliedParagraphStyle = ObjectReferenceField('Styles/RootParagraphStyleGroup')
     ApplyNextParagraphStyle = BooleanField()
     EnableFill = BooleanField()
     EnableStroke = BooleanField()
@@ -105,20 +105,20 @@ class ObjectStyle(Element):
     EnableTextWrapAndOthers = BooleanField()
     EnableAnchoredObjectOptions = BooleanField()
     CornerRadius = FloatField()
-    FillColor = StringField()
+    FillColor = ObjectReferenceField('Graphic')
     FillTint = FloatField()
     OverprintFill = BooleanField()
     StrokeWeight = FloatField()
     MiterLimit = FloatField()
     EndCap = StringField()
     EndJoin = StringField()
-    StrokeType = StringField()
+    StrokeType = ObjectReferenceField('Graphic')
     LeftLineEnd = StringField()
     RightLineEnd = StringField()
-    StrokeColor = StringField()
+    StrokeColor = ObjectReferenceField('Graphic')
     StrokeTint = FloatField()
     OverprintStroke = BooleanField()
-    GapColor = StringField()
+    GapColor = ObjectReferenceField('Graphic')
     GapTint = FloatField()
     OverprintGap = BooleanField()
     StrokeAlignment = StringField()
@@ -206,16 +206,5 @@ class Styles(Element):
     RootParagraphStyleGroup = EmbeddedDocumentField(RootParagraphStyleGroup)
     RootObjectStyleGroup = EmbeddedDocumentField(RootObjectStyleGroup)
     
-    def get_style(self, full_name):
-        """
-        Returns a style given a name in the form ParagraphStyle/Foo, 
-        CharacterStyle/Bar etc
-        
-        (TODO: This should be done magically by a ParagraphStyleField or 
-        something)
-        """
-        style_type, name = full_name.split('/', 1)
-        if style_type in ('ParagraphStyle', 'CharacterStyle', 'ObjectStyle'):
-            for s in getattr(self, 'Root%sGroup' % style_type).children:
-                if s.Self == full_name:
-                    return s
+
+

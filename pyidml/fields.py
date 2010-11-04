@@ -1,5 +1,5 @@
 import mongoengine
-from mongoengine.base import BaseDocument
+from mongoengine.base import BaseDocument, BaseField
 from xml.etree import ElementTree
 
 IntField = mongoengine.IntField
@@ -133,5 +133,47 @@ class RectangleBoundsField(mongoengine.DictField):
 #     def to_mongo(self, value):
 #         return value.Self
 #     
+
+class ObjectReferenceField(StringField):
+    """
+    A reference to another element in an InDesign document which will be 
+    automatically dereferenced on access.
+
+    On creation, it is passed a string specifying the parent element to look for 
+    the referenced element under, relative to the root document. For example, 
+    references to ParagraphStyle elements would have a parent of 
+    ``Styles/RootParagraphStyleGroup``.
+    """
+    def __init__(self, parent_element='', **kwargs):
+        self.parent_element = parent_element
+        super(ObjectReferenceField, self).__init__(**kwargs)
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            # Document class
+            return self
+        
+        value = instance._data.get(self.name)
+        if isinstance(value, basestring):
+            parent = instance.get_document()
+            for element_name in self.parent_element.split('/'):
+                if element_name == '':
+                    continue
+                parent = getattr(parent, element_name, None)
+            if parent is not None:
+                element = parent.get_element(value)
+                if element is not None:
+                    instance._data[self.name] = element
+        return super(ObjectReferenceField, self).__get__(instance, owner)
+
+    def to_mongo(self, element):
+        if isinstance(element, BaseDocument):
+            element = element.Self
+        return element
+
+    def prepare_query_value(self, op, value):
+        return self.to_mongo(value)
+
+
 
 

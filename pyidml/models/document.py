@@ -52,11 +52,6 @@ class Document(mongoengine.Document, XMLSerializableMixin, ElementMixin):
     
     children = ListField(ElementEmbeddedDocumentField())
     
-    def get_story(self, name):
-        for story in self.get_children('Story'):
-            if story.Self == name:
-                return story
-    
 
 class Language(Element):
     """
@@ -168,14 +163,14 @@ class DateVariablePreference(BaseTextVariable):
 
 
 class MatchCharacterStylePreference(BaseTextVariable):
-    AppliedCharacterStyle = StringField()
+    AppliedCharacterStyle = ObjectReferenceField('Styles/RootCharacterStyleGroup')
     ChangeCase = StringField()
     DeleteEndPunctuation = BooleanField()
     SearchStrategy = StringField()
     
 
 class MatchParagraphStylePreference(BaseTextVariable):
-    AppliedParagraphStyle = StringField()
+    AppliedParagraphStyle = ObjectReferenceField('Styles/RootParagraphStyleGroup')
     ChangeCase = StringField()
     DeleteEndPunctuation = BooleanField()
     SearchStrategy = StringField()
@@ -241,7 +236,7 @@ class CrossReferenceFormat(Element):
     """
     Self = StringField(required=True)
     Name = StringField(required=True)
-    AppliedCharacterStyle = StringField()
+    AppliedCharacterStyle = ObjectReferenceField('Styles/RootCharacterStyleGroup')
     
     Properties = EmbeddedDocumentField(Properties)
     
@@ -257,7 +252,7 @@ class BuildingBlock(Element):
     """
     Self = StringField(required=True)
     BlockType = StringField(required=True)
-    AppliedCharacterStyle = StringField()
+    AppliedCharacterStyle = ObjectReferenceField('Styles/RootCharacterStyleGroup')
     CustomText = StringField()
     AppliedDelimiter = StringField()
     IncludeDelimiter = BooleanField()

@@ -36,14 +36,14 @@ class StoriesTest(FreshersTest):
     
     def test_ParagraphStyleRange(self):
         self.assertElement(self.story.children[2], 'ParagraphStyleRange',
-            AppliedParagraphStyle="ParagraphStyle/Body no indent"
+            AppliedParagraphStyle=doc.Styles.RootParagraphStyleGroup.get_element("ParagraphStyle/Body no indent")
         )
         self.assertEqual(len(self.story.children[2].children), 1)
     
     def test_CharacterStyleRange(self):
         element = self.story.children[2].children[0]
         self.assertElement(element, 'CharacterStyleRange',
-            AppliedCharacterStyle="CharacterStyle/$ID/[No character style]"
+            AppliedCharacterStyle=doc.Styles.RootCharacterStyleGroup.get_element("CharacterStyle/$ID/[No character style]")
         )
         self.assertEqual(len(element.children), 2)
         self.assertEqual(unicode(element.children[0]), u"Good writers are the heart and soul of any paper – without them, there would be nothing to print! If you fancy trying your hand at being a journalist or writer, this is where to start.")
@@ -53,7 +53,7 @@ class StoriesTest(FreshersTest):
         element = self.story.children[3]
         
         self.assertElement(element.children[0], 'CharacterStyleRange',
-            AppliedCharacterStyle="CharacterStyle/$ID/[No character style]"
+            AppliedCharacterStyle=doc.Styles.RootCharacterStyleGroup.get_element("CharacterStyle/$ID/[No character style]")
         )
         self.assertEqual(len(element.children[0].children), 5)
         self.assertEqual(
@@ -72,7 +72,7 @@ class StoriesTest(FreshersTest):
         )
         
         self.assertElement(element.children[1], 'CharacterStyleRange',
-            AppliedCharacterStyle="CharacterStyle/$ID/[No character style]",
+            AppliedCharacterStyle=doc.Styles.RootCharacterStyleGroup.get_element("CharacterStyle/$ID/[No character style]"),
             FontStyle="Italic SmText"
         )
         self.assertEqual(
@@ -81,7 +81,7 @@ class StoriesTest(FreshersTest):
         )
         
         self.assertElement(element.children[2], 'CharacterStyleRange',
-            AppliedCharacterStyle="CharacterStyle/$ID/[No character style]"
+            AppliedCharacterStyle=doc.Styles.RootCharacterStyleGroup.get_element("CharacterStyle/$ID/[No character style]")
         )
         self.assertEqual(
             unicode(element.children[2].children[0]),

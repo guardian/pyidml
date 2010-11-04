@@ -92,7 +92,7 @@ class GraphicTest(FreshersTest):
         self.assertEqual(len(gradient.children), 2)
         self.assertElement(gradient.children[0], 'GradientStop',
             Self="u61GradientStop0",
-            StopColor="Color/u60",
+            StopColor__Self="Color/u60",
             Location=0
         )
     
@@ -102,3 +102,5 @@ class GraphicTest(FreshersTest):
             Name="$ID/Triple_Stroke"
         )
         self.assertEqual(len(self.graphic.get_children('StrokeStyle')), 18)
+
+

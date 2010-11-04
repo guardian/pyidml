@@ -110,6 +110,7 @@ class ElementMixin(object):
             return transformation
 
 
+
 class Element(mongoengine.EmbeddedDocument, XMLSerializableMixin, ElementMixin):
     children = ListField(ElementEmbeddedDocumentField())
     
@@ -132,8 +133,21 @@ class Element(mongoengine.EmbeddedDocument, XMLSerializableMixin, ElementMixin):
             ])
             return cls._subclass_tags
         
-    
+    def __eq__(self, other):
+        if super(Element, self).__eq__(other):
+            return True
+        # Elements are equal if they are from the same document and have the
+        # same object ID
+        if isinstance(other, self.__class__):
+            this_doc = self.get_document()
+            other_doc = other.get_document()
+            if this_doc and other_doc and this_doc == other_doc:
+                if hasattr(self, 'Self') and hasattr(other, 'Self'):
+                    return self.Self == other.Self
+        return False
+
 
 class Properties(Element):
     Label = KeyValuePairField()
     
+

@@ -15,12 +15,6 @@ class StylesTest(FreshersTest):
             DOMVersion="6.0"
         )
     
-    def test_get_style(self):
-        self.assertEqual(
-            self.styles.get_style('ParagraphStyle/TV first paragraph').Self,
-            self.styles.RootParagraphStyleGroup.children[2].Self,
-        )
-    
     def test_RootCharacterStyleGroup(self):
         self.assertElement(
             self.styles.RootCharacterStyleGroup, 
@@ -41,10 +35,10 @@ class StylesTest(FreshersTest):
             Imported=False,
             KeyboardShortcut=[0, 0],
             Name="TV drop cap",
-            FillColor="Color/TV"
+            FillColor__Self="Color/TV"
         )
         self.assertProps(group.children[1].Properties,
-            BasedOn="CharacterStyle/Drop cap",
+            BasedOn__Self="CharacterStyle/Drop cap",
             PreviewColor="Nothing"
         )
         self.assertElement(group.children[6], 'CharacterStyle',
@@ -55,7 +49,7 @@ class StylesTest(FreshersTest):
             FontStyle="Display"
         )
         self.assertProps(group.children[6].Properties,
-            BasedOn="$ID/[No character style]",
+            BasedOn='$ID/[No character style]',
             PreviewColor="Nothing",
             AppliedFont="Arno Pro"
         )
@@ -74,7 +68,7 @@ class StylesTest(FreshersTest):
             Self="ParagraphStyle/$ID/[No paragraph style]",
             Name="$ID/[No paragraph style]",
             Imported=False,
-            FillColor="Color/Black",
+            FillColor__Self="Color/Black",
             FontStyle="Regular",
             PointSize=12,
             HorizontalScale=100,
@@ -88,7 +82,7 @@ class StylesTest(FreshersTest):
             DropCapLines=0,
             BaselineShift=0,
             Capitalization="Normal",
-            StrokeColor="Swatch/None",
+            StrokeColor__Self="Swatch/None",
             HyphenateLadderLimit=3,
             VerticalScale=100,
             LeftIndent=0,
@@ -297,17 +291,17 @@ class StylesTest(FreshersTest):
             AppliedFont="Times New Roman",
             RuleAboveColor="Text Color",
             RuleBelowColor="Text Color",
-            RuleAboveType="StrokeStyle/$ID/Solid",
-            RuleBelowType="StrokeStyle/$ID/Solid",
+            RuleAboveType__Self="StrokeStyle/$ID/Solid",
+            RuleBelowType__Self="StrokeStyle/$ID/Solid",
             BalanceRaggedLines="NoBalancing",
-            RuleAboveGapColor="Swatch/None",
-            RuleBelowGapColor="Swatch/None",
+            RuleAboveGapColor__Self="Swatch/None",
+            RuleBelowGapColor__Self="Swatch/None",
             UnderlineColor="Text Color",
-            UnderlineGapColor="Swatch/None",
-            UnderlineType="StrokeStyle/$ID/Solid",
+            UnderlineGapColor__Self="Swatch/None",
+            UnderlineType__Self="StrokeStyle/$ID/Solid",
             StrikeThroughColor="Text Color",
-            StrikeThroughGapColor="Swatch/None",
-            StrikeThroughType="StrokeStyle/$ID/Solid",
+            StrikeThroughGapColor__Self="Swatch/None",
+            StrikeThroughType__Self="StrokeStyle/$ID/Solid",
             Mojikumi="Nothing",
             KinsokuSet="Nothing",
             RubyFont="$ID/",
@@ -321,9 +315,9 @@ class StylesTest(FreshersTest):
             NumberingFormat="1, 2, 3, 4...",
             BulletsFont="$ID/",
             BulletsFontStyle="Nothing",
-            AppliedNumberingList="NumberingList/$ID/[Default]",
-            BulletsCharacterStyle="CharacterStyle/$ID/[No character style]",
-            NumberingCharacterStyle="CharacterStyle/$ID/[No character style]",
+            AppliedNumberingList__Self="NumberingList/$ID/[Default]",
+            BulletsCharacterStyle__Self="CharacterStyle/$ID/[No character style]",
+            NumberingCharacterStyle__Self="CharacterStyle/$ID/[No character style]",
         )
         self.assertElement(
             group.children[0].Properties.BulletChar,
@@ -353,20 +347,20 @@ class StylesTest(FreshersTest):
         self.assertElement(element, 'ObjectStyle',
             Self="ObjectStyle/$ID/[None]",
             Name="$ID/[None]",
-            AppliedParagraphStyle="ParagraphStyle/$ID/[No paragraph style]",
-            FillColor="Swatch/None",
+            AppliedParagraphStyle__Self="ParagraphStyle/$ID/[No paragraph style]",
+            FillColor__Self="Swatch/None",
             FillTint=-1,
             StrokeWeight=0,
             MiterLimit=4,
             EndCap="ButtEndCap",
             EndJoin="MiterEndJoin",
-            StrokeType="StrokeStyle/$ID/Solid",
+            StrokeType__Self="StrokeStyle/$ID/Solid",
             LeftLineEnd="None",
             RightLineEnd="None",
-            StrokeColor="Swatch/None",
+            StrokeColor__Self="Swatch/None",
             StrokeTint=-1,
             CornerRadius=12,
-            GapColor="Swatch/None",
+            GapColor__Self="Swatch/None",
             GapTint=-1,
             StrokeAlignment="CenterAlignment",
             Nonprinting=False,
@@ -376,3 +370,5 @@ class StylesTest(FreshersTest):
             CornerOption="None"
         )
         
+
+

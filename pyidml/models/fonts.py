@@ -74,3 +74,5 @@ class CompositeFontEntry(Element):
     BaselineShift = FloatField()
     
     Properties = EmbeddedDocumentField(CompositeFontEntryProperties)
+
+
