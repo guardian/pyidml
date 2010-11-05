@@ -370,7 +370,7 @@ class PageItem(Element):
     OverprintGap = BooleanField()
     StrokeAlignment = StringField()
     Nonprinting = BooleanField()
-    ItemLayer = StringField()
+    ItemLayer = ObjectReferenceField()
     Locked = BooleanField()
     LocalDisplaySetting = StringField()
     GradientFillHiliteLength = FloatField()
@@ -442,7 +442,7 @@ class TextFramePreference(Element):
     
 
 class TextFrame(PageItem):
-    ParentStory = StringField()
+    ParentStory = ObjectReferenceField()
     PreviousTextFrame = StringField()
     NextTextFrame = StringField()
     
@@ -707,7 +707,7 @@ class Guides(Element):
     FitToPage = BooleanField()
     ViewThreshold = FloatField()
     Locked = BooleanField()
-    ItemLayer = StringField()
+    ItemLayer = ObjectReferenceField()
     PageIndex = IntField()
     
     Properties = EmbeddedDocumentField(GuidesProperties)
