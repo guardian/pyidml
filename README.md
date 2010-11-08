@@ -6,18 +6,15 @@ A Python library for InDesign Markup Language (IDML).
 Install
 -------
 
-    $ python setup.py install
+If you don't have [pip](http://pip.openplans.org/) installed, install
+setuptools (``python-setuptools`` on Debian) and run as root:
 
-Or for development:
+    $ easy_install pip
 
+Install the Python headers (``python-dev`` on Debian), and run as root:
+
+    $ pip install -r requirements.txt
     $ python setup.py develop
-
-
-API
----
-
-TODO
-
 
 Test suite
 ----------
