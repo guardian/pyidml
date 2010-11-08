@@ -260,7 +260,7 @@ class BuildingBlock(Element):
 
 class HyperlinkProperties(Properties):
     BorderColor = StringField()
-    Destination = StringField()
+    Destination = ObjectReferenceField()
 
 
 class Hyperlink(Element):
