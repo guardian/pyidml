@@ -1,2 +1,2 @@
 numpy
-mongoengine
+mongoengine==0.4

@@ -75,7 +75,7 @@ class EmbeddedDocumentField(mongoengine.EmbeddedDocumentField):
     """
     def to_python(self, value):
         if isinstance(value, ElementTree._ElementInterface):
-            return self.document.from_xml(value)
+            return self.document_type.from_xml(value)
         return super(EmbeddedDocumentField, self).to_python(value)
     
     def __set__(self, instance, value):
