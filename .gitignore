@@ -3,4 +3,5 @@
 .DS_Store
 /build/
 *~
+pip-log.txt
 
