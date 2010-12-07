@@ -19,6 +19,14 @@ class ElementTest(FreshersTest):
             doc.get_children('Language')[0].Self,
         )
 
+    def test_get_closest(self):
+        spread = doc.get_children('Spread')[1]
+        page_item = spread.get_children('TextFrame')[0]
+
+        self.assertEqual(page_item.get_closest('TextFrame'), page_item)
+        self.assertEqual(page_item.get_closest('Spread'), spread)
+        self.assertEqual(spread.get_closest('TextFrame'), None)
+
     def test_get_relative_transformation_pasteboard(self):
         """
         Test get_relative_transformation() relative to the pasteboard

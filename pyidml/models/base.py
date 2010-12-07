@@ -93,6 +93,15 @@ class ElementMixin(object):
             [self.ItemTransform[4], self.ItemTransform[5], 1],
         ])
 
+    def get_closest(self, name):
+        """
+        Returns the nearest ancestor of a given name, including this element.
+        """
+        if self.__class__.__name__ == name:
+            return self
+        elif hasattr(self, '_parent') and self._parent:
+            return self._parent.get_closest(name)
+
     def get_relative_transformation(self, name=None):
         """
         Returns the transform matrix for this element relative to the nearest 
