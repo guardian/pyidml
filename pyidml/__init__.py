@@ -3,6 +3,11 @@ from models import Document
 from xml.etree import ElementTree
 import zipfile
 
+__version__ = '0.1'
+__author__ = 'Ben Firshman'
+__contact__ = 'ben.firshman@guardian.co.uk'
+__homepage__ = 'https://github.com/guardian/pyidml'
+
 PACKAGING_NS = '{http://ns.adobe.com/AdobeInDesign/idml/1.0/packaging}'
 
 def load_files(fh):
