@@ -1,4 +1,5 @@
 import numpy
+import pickle
 from tests import FreshersTest, doc
 
 class ElementTest(FreshersTest):
@@ -82,6 +83,11 @@ class ElementTest(FreshersTest):
             ])
         ))
 
-
+    def test_is_pickleable(self):
+        p = pickle.dumps(doc)
+        unpickled_doc = pickle.loads(p)
+        self.assertEqual(unpickled_doc.Self, 'd')
+        self.assertEqual(len(unpickled_doc.children), 221)
+        
 
 
