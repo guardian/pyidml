@@ -19,6 +19,6 @@ Install the Python headers (``python-dev`` on Debian), and run as root:
 Test suite
 ----------
 
-    $ python setup.py test
+    $ nosetests
 
 
