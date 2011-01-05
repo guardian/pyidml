@@ -1,5 +1,5 @@
 import copy
-from models import Document
+from pyidml.models import Document
 from xml.etree import ElementTree
 import zipfile
 
