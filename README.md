@@ -14,7 +14,7 @@ setuptools (``python-setuptools`` on Debian) and run as root:
 Install the Python headers (``python-dev`` on Debian), and run as root:
 
     $ pip install -r requirements.txt
-    $ python setup.py develop
+    $ python setup.py install
 
 Test suite
 ----------
