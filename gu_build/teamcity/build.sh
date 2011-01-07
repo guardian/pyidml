@@ -20,12 +20,12 @@ fi
 echo "creating virtualenv"
 do_or_die virtualenv2.6 ve
 
-echo "cleaning"
-do_or_die ve/bin/python2.6 setup.py clean
-
 echo "installing dependencies"
 do_or_die ve/bin/pip install --no-index -r requirements.txt --upgrade
 do_or_die virtualenv2.6 --relocatable ve
+
+echo "cleaning"
+do_or_die ve/bin/python2.6 setup.py clean
 
 echo "Running tests..."
 do_or_die ve/bin/python2.6 ve/bin/nosetests -e handlers
