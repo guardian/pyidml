@@ -35,7 +35,7 @@ echo "Building distribution zip"
 do_or_die ve/bin/python2.6 setup.py sdist --formats=zip
 
 echo "Uploading distributon to pypi.gudev.gnl"
-scp dist/pyidml-0.3-dev.zip pypi.gudev.gnl:/r2/python_repository/
+cp dist/pyidml-0.3-dev.zip /r2/python_repository/
 echo "Cleaning up"
 
 do_or_die rm -rf ve
