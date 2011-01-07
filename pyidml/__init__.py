@@ -3,7 +3,7 @@ from pyidml.models import Document
 from xml.etree import ElementTree
 import zipfile
 
-__version__ = '0.2-dev'
+__version__ = '0.2'
 __author__ = 'Ben Firshman'
 __contact__ = 'ben.firshman@guardian.co.uk'
 __homepage__ = 'https://github.com/guardian/pyidml'
