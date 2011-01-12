@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-import pyidml
 
 setup(
     name='pyidml',
-    version=pyidml.__version__,
+    version='0.3-dev',
     description='A Python IDML library',
-    author=pyidml.__author__,
-    author_email=pyidml.__contact__,
-    url=pyidml.__homepage__,
+    url='https://github.com/guardian/pyidml',
     packages=find_packages(exclude=['tests']),
     test_suite='nose.collector',
 )
