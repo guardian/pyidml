@@ -392,28 +392,6 @@ class Br(Element):
 # TODO: Notes
 
 
-class AnchoredObjectSetting(Element):
-    """
-    InDesign documents often feature page items that have been embedded in text. 
-    These frames move with the text as the composition and layout of the text 
-    changes. These embedded frames are referred to as anchored frames. Anchored 
-    frames are also sometimes called inline frames - in IDML, an inline frame is 
-    a special case of an anchored frame.
-    """
-    AnchoredPosition = StringField()
-    SpineRelative = BooleanField()
-    LockPosition = BooleanField()
-    PinPosition = BooleanField()
-    AnchorPoint = StringField()
-    HorizontalAlignment = StringField()
-    HorizontalReferencePoint = StringField()
-    VerticalAlignment = StringField()
-    VerticalReferencePoint = StringField()
-    AnchorXoffset = FloatField()
-    AnchorYoffset = FloatField()
-    AnchorSpaceAbove = FloatField()
-    
-
 class HyperlinkTextSource(Element):
     """
     Hyperlink text sources differ from other inline elements as they appear as 

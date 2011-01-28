@@ -255,6 +255,28 @@ class AnimationSetting(Element):
 # PageItems
 ######################################
 
+class AnchoredObjectSetting(Element):
+    """
+    InDesign documents often feature page items that have been embedded in text. 
+    These frames move with the text as the composition and layout of the text 
+    changes. These embedded frames are referred to as anchored frames. Anchored 
+    frames are also sometimes called inline frames - in IDML, an inline frame is 
+    a special case of an anchored frame.
+    """
+    AnchoredPosition = StringField()
+    SpineRelative = BooleanField()
+    LockPosition = BooleanField()
+    PinPosition = BooleanField()
+    AnchorPoint = StringField()
+    HorizontalAlignment = StringField()
+    HorizontalReferencePoint = StringField()
+    VerticalAlignment = StringField()
+    VerticalReferencePoint = StringField()
+    AnchorXoffset = FloatField()
+    AnchorYoffset = FloatField()
+    AnchorSpaceAbove = FloatField()
+    
+
 class ContourOption(Element):
     ContourType = StringField()
     IncludeInsideEdges = BooleanField()
@@ -391,6 +413,7 @@ class PageItem(Element):
     BottomRightCornerRadius = FloatField()
     ItemTransform = SpaceSeparatedListField(FloatField())
     
+    AnchoredObjectSetting = EmbeddedDocumentField(AnchoredObjectSetting)
     AnimationSetting = EmbeddedDocumentField(AnimationSetting)
     FrameFittingOption = EmbeddedDocumentField(FrameFittingOption)
     GridDataInformation = EmbeddedDocumentField(GridDataInformation)
