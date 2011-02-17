@@ -8,7 +8,22 @@ class LeadingField(FloatField):
             return value.text
         else:
             return super(LeadingField, self).to_python(value)
+
+class AllNestedStylesItemType(Element):
+    type = StringField()
     
+    AppliedCharacterStyle = ObjectReferenceField('Styles/RootCharacterStyleGroup')
+    Delimiter = StringField()
+    Repetition = FloatField()
+    Inclusive = BooleanField()
+
+class TabListItemType(Element):
+    type = StringField()
+    
+    Alignment = StringField()
+    AlignmentCharacter = StringField()
+    Leader = StringField()
+    Position = FloatField()
 
 class BulletChar(Element):
     BulletCharacterType = StringField()
@@ -24,7 +39,7 @@ class NumberingRestartPolicies(Element):
 class TextElementProperties(Properties):
     AllGREPStyles = StringField() # TODO: ListItem
     AllLineStyles = StringField() # TODO: ListItem
-    AllNestedStyles = StringField() # TODO: ListItem
+    AllNestedStyles = ListField(EmbeddedDocumentField(AllNestedStylesItemType)) # TODO: ListItem
     AppliedFont = StringField()
     AppliedNumberingList = ObjectReferenceField()
     BalanceRaggedLines = StringField() # TODO: boolean or BalanceLinesStyle_EnumValue
@@ -58,7 +73,7 @@ class TextElementProperties(Properties):
     StrikeThroughColor = ObjectReferenceField('Graphic')
     StrikeThroughGapColor = ObjectReferenceField('Graphic')
     StrikeThroughType = ObjectReferenceField('Graphic')
-    TabList = StringField() # TODO: ListItem
+    TabList = ListField(EmbeddedDocumentField(TabListItemType)) # TODO: ListItem
     UnderlineColor = ObjectReferenceField('Graphic')
     UnderlineGapColor = ObjectReferenceField('Graphic')
     UnderlineType = ObjectReferenceField('Graphic')
