@@ -55,6 +55,13 @@ class ListField(mongoengine.ListField):
         return value
     
 
+class ListItemField(ListField):
+    def __get__(self, instance, owner):
+        value = super(ListItemField, self).__get__(instance, owner)
+        if value == []:
+            return None
+        return value
+
 class SpaceSeparatedListField(ListField):
     def to_python(self, value):
         if isinstance(value, basestring):

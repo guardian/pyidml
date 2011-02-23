@@ -39,7 +39,7 @@ class NumberingRestartPolicies(Element):
 class TextElementProperties(Properties):
     AllGREPStyles = StringField() # TODO: ListItem
     AllLineStyles = StringField() # TODO: ListItem
-    AllNestedStyles = ListField(EmbeddedDocumentField(AllNestedStylesItemType)) # TODO: ListItem
+    AllNestedStyles = ListItemField(EmbeddedDocumentField(AllNestedStylesItemType)) # TODO: ListItem
     AppliedFont = StringField()
     AppliedNumberingList = ObjectReferenceField()
     BalanceRaggedLines = StringField() # TODO: boolean or BalanceLinesStyle_EnumValue
@@ -73,7 +73,7 @@ class TextElementProperties(Properties):
     StrikeThroughColor = ObjectReferenceField('Graphic')
     StrikeThroughGapColor = ObjectReferenceField('Graphic')
     StrikeThroughType = ObjectReferenceField('Graphic')
-    TabList = ListField(EmbeddedDocumentField(TabListItemType)) # TODO: ListItem
+    TabList = ListItemField(EmbeddedDocumentField(TabListItemType)) # TODO: ListItem
     UnderlineColor = ObjectReferenceField('Graphic')
     UnderlineGapColor = ObjectReferenceField('Graphic')
     UnderlineType = ObjectReferenceField('Graphic')
