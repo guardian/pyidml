@@ -839,7 +839,7 @@ class Spread(Element):
     
     @classmethod
     def from_xml(cls, e):
-        if e[0] and e[0].tag == 'Spread':
+        if e[0] is not None and e[0].tag == 'Spread':
             e = e[0]
         return super(Spread, cls).from_xml(e)
     
@@ -867,7 +867,7 @@ class MasterSpread(Element):
     
     @classmethod
     def from_xml(cls, e):
-        if e[0] and e[0].tag == 'MasterSpread':
+        if e[0] is not None and e[0].tag == 'MasterSpread':
             e = e[0]
         return super(MasterSpread, cls).from_xml(e)
     

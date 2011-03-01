@@ -1,10 +1,10 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
-from xml.etree import ElementTree
+from lxml import etree
 
 class LeadingField(FloatField):
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             return value.text
         else:
             return super(LeadingField, self).to_python(value)
@@ -366,7 +366,7 @@ class Story(BaseTextElement):
     
     @classmethod
     def from_xml(cls, e):
-        if e[0] and e[0].tag == 'Story':
+        if e[0] is not None and e[0].tag == 'Story':
             e = e[0]
         return super(Story, cls).from_xml(e)
     
@@ -397,7 +397,16 @@ class Content(Element):
     @classmethod
     def from_xml(cls, e):
         instance = cls()
-        instance.text = e.text
+        text = []
+        if e.text:
+            text.append(e.text)
+        for child in e:
+            if isinstance(child, etree._ProcessingInstruction):
+                if child.target == 'ACE':
+                    text.append(chr(int(child.text, 16)))
+            if child.tail is not None:
+                text.append(child.tail)
+        instance.text = ''.join(text)
         return instance
 
 class Br(Element):
