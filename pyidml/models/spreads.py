@@ -420,6 +420,7 @@ class PageItem(Element):
     InCopyExportOption = EmbeddedDocumentField(InCopyExportOption)
     Properties = EmbeddedDocumentField(PageItemProperties)
     TextWrapPreference = EmbeddedDocumentField(TextWrapPreference)
+    FillTransparencySetting = EmbeddedDocumentField(TransparencySetting)
     TransparencySetting = EmbeddedDocumentField(TransparencySetting)
     
 
