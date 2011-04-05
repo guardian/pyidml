@@ -1,14 +1,29 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
-from xml.etree import ElementTree
+from lxml import etree
 
 class LeadingField(FloatField):
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             return value.text
         else:
             return super(LeadingField, self).to_python(value)
+
+class AllNestedStylesItemType(Element):
+    type = StringField()
     
+    AppliedCharacterStyle = ObjectReferenceField('Styles/RootCharacterStyleGroup')
+    Delimiter = StringField()
+    Repetition = FloatField()
+    Inclusive = BooleanField()
+
+class TabListItemType(Element):
+    type = StringField()
+    
+    Alignment = StringField()
+    AlignmentCharacter = StringField()
+    Leader = StringField()
+    Position = FloatField()
 
 class BulletChar(Element):
     BulletCharacterType = StringField()
@@ -24,7 +39,7 @@ class NumberingRestartPolicies(Element):
 class TextElementProperties(Properties):
     AllGREPStyles = StringField() # TODO: ListItem
     AllLineStyles = StringField() # TODO: ListItem
-    AllNestedStyles = StringField() # TODO: ListItem
+    AllNestedStyles = ListItemField(EmbeddedDocumentField(AllNestedStylesItemType)) # TODO: ListItem
     AppliedFont = StringField()
     AppliedNumberingList = ObjectReferenceField()
     BalanceRaggedLines = StringField() # TODO: boolean or BalanceLinesStyle_EnumValue
@@ -58,7 +73,7 @@ class TextElementProperties(Properties):
     StrikeThroughColor = ObjectReferenceField('Graphic')
     StrikeThroughGapColor = ObjectReferenceField('Graphic')
     StrikeThroughType = ObjectReferenceField('Graphic')
-    TabList = StringField() # TODO: ListItem
+    TabList = ListItemField(EmbeddedDocumentField(TabListItemType)) # TODO: ListItem
     UnderlineColor = ObjectReferenceField('Graphic')
     UnderlineGapColor = ObjectReferenceField('Graphic')
     UnderlineType = ObjectReferenceField('Graphic')
@@ -351,7 +366,7 @@ class Story(BaseTextElement):
     
     @classmethod
     def from_xml(cls, e):
-        if e[0] and e[0].tag == 'Story':
+        if e[0] is not None and e[0].tag == 'Story':
             e = e[0]
         return super(Story, cls).from_xml(e)
     
@@ -382,7 +397,16 @@ class Content(Element):
     @classmethod
     def from_xml(cls, e):
         instance = cls()
-        instance.text = e.text
+        text = []
+        if e.text:
+            text.append(e.text)
+        for child in e:
+            if isinstance(child, etree._ProcessingInstruction):
+                if child.target == 'ACE':
+                    text.append(chr(int(child.text, 16)))
+            if child.tail is not None:
+                text.append(child.tail)
+        instance.text = ''.join(text)
         return instance
 
 class Br(Element):
@@ -391,28 +415,6 @@ class Br(Element):
 # TODO: Tables
 # TODO: Notes
 
-
-class AnchoredObjectSetting(Element):
-    """
-    InDesign documents often feature page items that have been embedded in text. 
-    These frames move with the text as the composition and layout of the text 
-    changes. These embedded frames are referred to as anchored frames. Anchored 
-    frames are also sometimes called inline frames - in IDML, an inline frame is 
-    a special case of an anchored frame.
-    """
-    AnchoredPosition = StringField()
-    SpineRelative = BooleanField()
-    LockPosition = BooleanField()
-    PinPosition = BooleanField()
-    AnchorPoint = StringField()
-    HorizontalAlignment = StringField()
-    HorizontalReferencePoint = StringField()
-    VerticalAlignment = StringField()
-    VerticalReferencePoint = StringField()
-    AnchorXoffset = FloatField()
-    AnchorYoffset = FloatField()
-    AnchorSpaceAbove = FloatField()
-    
 
 class HyperlinkTextSource(Element):
     """

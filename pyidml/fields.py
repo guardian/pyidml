@@ -1,19 +1,19 @@
 import mongoengine
 from mongoengine.base import BaseDocument, BaseField
-from xml.etree import ElementTree
+from lxml import etree
 
 IntField = mongoengine.IntField
 
 class StringField(mongoengine.StringField):
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             value = value.text
         return super(StringField, self).to_python(value)
     
 
 class FloatField(mongoengine.FloatField):
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             value = value.text
         return super(FloatField, self).to_python(value)
     
@@ -55,6 +55,13 @@ class ListField(mongoengine.ListField):
         return value
     
 
+class ListItemField(ListField):
+    def __get__(self, instance, owner):
+        value = super(ListItemField, self).__get__(instance, owner)
+        if value == []:
+            return None
+        return value
+
 class SpaceSeparatedListField(ListField):
     def to_python(self, value):
         if isinstance(value, basestring):
@@ -74,7 +81,7 @@ class EmbeddedDocumentField(mongoengine.EmbeddedDocumentField):
     values a _parent attribute
     """
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             return self.document_type.from_xml(value)
         return super(EmbeddedDocumentField, self).to_python(value)
     
@@ -92,7 +99,7 @@ class EmbeddedDocumentField(mongoengine.EmbeddedDocumentField):
 
 class KeyValuePairField(mongoengine.DictField):
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             d = {}
             for child in value:
                 d[child.get('Key')] = child.get('Value')
@@ -101,7 +108,7 @@ class KeyValuePairField(mongoengine.DictField):
 
 class PropertiesField(mongoengine.DictField):
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             d = {}
             for child in value:
                 attrs = dict(child.items())
@@ -117,7 +124,7 @@ class PropertiesField(mongoengine.DictField):
 
 class RectangleBoundsField(mongoengine.DictField):
     def to_python(self, value):
-        if isinstance(value, ElementTree._ElementInterface):
+        if isinstance(value, etree._Element):
             d = {}
             for attr in ('Top', 'Left', 'Bottom', 'Right'):
                 d[attr] = float(value.get(attr))

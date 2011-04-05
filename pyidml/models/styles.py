@@ -1,6 +1,6 @@
 from pyidml.fields import *
 from pyidml.models import Element, Properties
-from spreads import TextFramePreference, TextWrapPreference, FrameFittingOption, TransparencySetting
+from spreads import TextFramePreference, TextWrapPreference, FrameFittingOption, TransparencySetting, AnchoredObjectSetting
 from stories import BaseTextElement, TextElementProperties
 
 class ParagraphStyleGroup(Element):
@@ -146,6 +146,7 @@ class ObjectStyle(Element):
     TextWrapPreference = EmbeddedDocumentField(TextWrapPreference)
     FrameFittingOption = EmbeddedDocumentField(FrameFittingOption)
     TransparencySetting = EmbeddedDocumentField(TransparencySetting)
+    AnchoredObjectSetting = EmbeddedDocumentField(AnchoredObjectSetting)
     
     Properties = EmbeddedDocumentField(ObjectStyleProperties)
     
