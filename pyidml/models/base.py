@@ -102,19 +102,19 @@ class ElementMixin(object):
         elif hasattr(self, '_parent') and self._parent:
             return self._parent.get_closest(name)
 
-    def get_relative_transformation(self, name=None):
+    def get_relative_transformation(self, element=None):
         """
-        Returns the transform matrix for this element relative to the nearest 
-        element of the given name, or by default, the pasteboard.
+        Returns the transform matrix for this element relative an element
+        given, or by default, the pasteboard.
         """
-        if self.__class__.__name__ == name:
+        if self == element:
             return numpy.identity(3)
         
         transformation = self.get_transformation()
         if transformation is None:
             transformation = numpy.identity(3)
         if hasattr(self, '_parent') and self._parent:
-            return transformation * self._parent.get_relative_transformation(name)
+            return transformation * self._parent.get_relative_transformation(element)
         else:
             return transformation
 

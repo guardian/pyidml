@@ -59,9 +59,10 @@ class ElementTest(FreshersTest):
         """
         Test get_relative_transformation() relative to other elements
         """
-        page_item = doc.get_children('Spread')[1].get_children('TextFrame')[0]
+        spread = doc.get_children('Spread')[1]
+        page_item = spread.get_children('TextFrame')[0]
         self.assertTrue(numpy.all(
-            page_item.get_relative_transformation('Spread') ==
+            page_item.get_relative_transformation(spread) ==
             numpy.matrix([
                 [1, 0, 0],
                 [0, 1, 0],
@@ -69,7 +70,7 @@ class ElementTest(FreshersTest):
             ])
         ))
         self.assertTrue(numpy.all(
-            page_item.get_relative_transformation('TextFrame') == numpy.identity(3)
+            page_item.get_relative_transformation(page_item) == numpy.identity(3)
         ))
 
     def test_get_transformation(self):
