@@ -20,6 +20,8 @@ class FloatField(mongoengine.FloatField):
 
 class BooleanField(mongoengine.BooleanField):
     def to_python(self, value):
+        if isinstance(value, etree._Element):
+            value = value.text
         if isinstance(value, basestring):
             if value == 'true' or value == '1':
                 return True
