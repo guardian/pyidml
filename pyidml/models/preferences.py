@@ -43,10 +43,48 @@ class StoryPreference(Element):
     StoryDirection = StringField()
     
 
-# TextPreference, TextDefault, DictionaryPreference, AnchoredObjectDefault, AnchoredObjectSetting, BaselineFrameGridOption, FootnoteOption, 
+# TextDefault, DictionaryPreference, AnchoredObjectDefault, AnchoredObjectSetting, BaselineFrameGridOption, FootnoteOption, 
 
 
-    
+class TextPreference(Element):
+    """
+    The <TextPreference> element stores general text preferences for a document.
+    """
+    AbutTextToTextWrap = BooleanField()
+    AddPages = StringField()
+    AutoPageDeletion = BooleanField()
+    AutoPageInsertion = StringField()
+    BaselineShiftKeyIncrement = FloatField()
+    DeleteEmptyPages = BooleanField()
+    EnableDynamicAutoflow = BooleanField()
+    EnableStylePreviewMode = BooleanField()
+    HighlightCustomSpacing = BooleanField()
+    HighlightHjViolations = BooleanField()
+    HighlightKeeps = BooleanField()
+    HighlightKinsoku = BooleanField()
+    HighlightSubstitutedFonts = BooleanField()
+    HighlightSubstitutedGlyphs = BooleanField()
+    JustifyTextWraps = BooleanField()
+    KerningKeyIncrement = FloatField()
+    LeadingKeyIncrement = FloatField()
+    LimitToMasterTextFrames = BooleanField()
+    LinkTextFilesWhenImporting = BooleanField()
+    PreserveFacingPageSpreads = BooleanField()
+    PreserveRectoVerso = BooleanField()
+    RestrictToMasterTextFrames = BooleanField()
+    ShowInvisibles = BooleanField()
+    SmallCap = FloatField()
+    SmartTextReflow = BooleanField()
+    SubscriptPosition = FloatField()
+    SubscriptSize = FloatField()
+    SuperscriptPosition = FloatField()
+    SuperscriptSize = FloatField()
+    TypographersQuotes = BooleanField()
+    UseCidMojikumi = BooleanField()
+    UseNewVerticalScaling = BooleanField()
+    UseOpticalSize = BooleanField()
+    UseParagraphLeading = BooleanField()
+    ZOrderTextWrap = BooleanField()
 
 class DocumentPreferenceProperties(Properties):
     ColumnGuideColor = StringField() # TODO: InDesignUIColorType_TypeDef
@@ -129,5 +167,6 @@ class Preferences(Element):
     DocumentPreference = EmbeddedDocumentField(DocumentPreference)
     MarginPreference = EmbeddedDocumentField(MarginPreference)
     FrameFittingOption = EmbeddedDocumentField(FrameFittingOption)
+    TextPreference = EmbeddedDocumentField(TextPreference)
 
 
