@@ -1,5 +1,6 @@
--f http://pypi.gudev.gnl/pyidml
+lxml
 numpy==1.5.1
 mongoengine==0.4
 nose==1.0.0
+pymongo==1.11
 
