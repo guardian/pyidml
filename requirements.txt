@@ -1,5 +1,5 @@
 lxml
-numpy==1.5.1
+numpy==1.21.0
 mongoengine==0.4
 nose==1.0.0
 pymongo==1.11
